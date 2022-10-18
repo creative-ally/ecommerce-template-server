@@ -39,8 +39,25 @@ const run = async () => {
   try {
     await client.connect();
 
+    //display all collection
+
+    const office = client.db('OfficeCollection').collection('office');
+    const officecategory= client.db('OfficeCollection').collection('officeCategories');
+
     // displaying data
-    app.get('', (req, res) => {});
+    app.get('/officeproduct', async(req, res) => {
+
+      const category = req.query.category;
+      console.log(category)
+
+      const query = {category};
+
+      const cursor = office.find(query);
+
+      const officeproducts = await cursor.toArray();
+
+      res.send(officeproducts);
+    });
 
     // creating data
     app.post('/', (req, res) => {});
