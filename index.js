@@ -44,7 +44,19 @@ const run = async () => {
     const office = client.db('OfficeCollection').collection('office');
     const officecategory= client.db('OfficeCollection').collection('officeCategories');
 
-    // displaying data
+    // displaying all office category data
+
+    app.get('/officecategories', async(req,res)=>{
+      const query = {};
+      const cursor = officecategory.find(query);
+
+      const office = await cursor.toArray();
+
+      res.send(office)
+
+    })
+
+    // displaying individual officeproduct data
     app.get('/officeproduct', async(req, res) => {
 
       const category = req.query.category;
@@ -58,6 +70,20 @@ const run = async () => {
 
       res.send(officeproducts);
     });
+
+
+    //displaying single furniture product
+
+    app.get('/singleproduct/:id', async(req,res)=>{
+        const id = req.params.id;
+        console.log(id)
+        const query = {_id:ObjectId(id)}
+
+        const product = await office.findOne(query);
+
+        res.send(product)
+    })
+    
 
     // creating data
     app.post('/', (req, res) => {});
