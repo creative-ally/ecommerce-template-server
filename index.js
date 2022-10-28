@@ -44,6 +44,7 @@ const run = async () => {
     const office = client.db('OfficeCollection').collection('office');
     const officecategory = client.db('OfficeCollection').collection('officeCategories');
     const doorCategory = client.db('Categories').collection('doors');
+    const diningCategory = client.db('Categories').collection('dining');
 
     // displaying all office category data
 
@@ -108,6 +109,33 @@ const run = async () => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await doorCategory.deleteOne(query);
+      res.send(result);
+    })
+
+
+    //diningCategory
+    app.get('/category/dining', async (req, res) => {
+      const result = await diningCategory.find().toArray();
+      res.send(result);
+    })
+    //get dining with id
+    app.get('/category/dining/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await diningCategory.findOne(query);
+      res.send(result);
+    })
+    //post dining sub-category
+    app.post('/category/dining', async (req, res) => {
+      const query = req.body;
+      const result = await diningCategory.insertOne(query)
+      res.send(result);
+    })
+    //delete a dining
+    app.delete('/category/dining/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await diningCategory.deleteOne(query);
       res.send(result);
     })
 
