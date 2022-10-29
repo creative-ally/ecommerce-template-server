@@ -44,6 +44,9 @@ const run = async () => {
     const office = client.db('OfficeCollection').collection('office');
     const officecategory= client.db('OfficeCollection').collection('officeCategories');
 
+    const interiors = client.db('InteriorCollection').collection('interior')
+    const interiorcategory = client.db('InteriorCollection').collection('interiorCategory')
+
     // displaying all office category data
 
     app.get('/officecategories', async(req,res)=>{
@@ -82,6 +85,38 @@ const run = async () => {
         const product = await office.findOne(query);
 
         res.send(product)
+    })
+
+
+    //Interior furniture
+
+    app.get('/interiorcategories', async(req,res)=>{
+      const query ={}
+
+      const cursor = interiorcategory.find(query);
+      const interiorcate= await cursor.toArray();
+
+      res.send(interiorcate)
+    })
+
+    // category wise interior query
+
+    app.get('/interiorproductcategory', async(req,res)=>{
+     
+
+
+      // const category = req.query.category;
+      // console.log(category)
+
+      // const query = {category};
+      const query ={}
+
+      const cursor = interiors.find(query);
+
+      const interiorproduct = await cursor.toArray();
+      console.log(interiorproduct)
+
+      res.send(interiorproduct);
     })
     
 
