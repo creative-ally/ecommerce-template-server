@@ -42,14 +42,19 @@ const run = async () => {
     //display all collection
 
     const office = client.db('OfficeCollection').collection('office');
-    const officecategory= client.db('OfficeCollection').collection('officeCategories');
+    const officecategory = client.db('OfficeCollection').collection('officeCategories');
+    const doorCategory = client.db('Categories').collection('doors');
+    const diningCategory = client.db('Categories').collection('dining');
+
+    // const interiors = client.db('InteriorCollection').collection('interior')
+    // const interiorcategory = client.db('InteriorCollection').collection('interiorCategory')
 
     const interiors = client.db('InteriorCollection').collection('interior')
     const interiorcategory = client.db('InteriorCollection').collection('interiorCategory')
 
     // displaying all office category data
 
-    app.get('/officecategories', async(req,res)=>{
+    app.get('/officecategories', async (req, res) => {
       const query = {};
       const cursor = officecategory.find(query);
 
@@ -60,12 +65,12 @@ const run = async () => {
     })
 
     // displaying individual officeproduct data
-    app.get('/officeproduct', async(req, res) => {
+    app.get('/officeproduct', async (req, res) => {
 
       const category = req.query.category;
       console.log(category)
 
-      const query = {category};
+      const query = { category };
 
       const cursor = office.find(query);
 
@@ -77,14 +82,14 @@ const run = async () => {
 
     //displaying single furniture product
 
-    app.get('/singleproduct/:id', async(req,res)=>{
-        const id = req.params.id;
-        console.log(id)
-        const query = {_id:ObjectId(id)}
+    app.get('/singleproduct/:id', async (req, res) => {
+      const id = req.params.id;
+      console.log(id)
+      const query = { _id: ObjectId(id) }
 
-        const product = await office.findOne(query);
+      const product = await office.findOne(query);
 
-        res.send(product)
+      res.send(product)
     })
 
 
@@ -118,16 +123,83 @@ const run = async () => {
 
       res.send(interiorproduct);
     })
-    
+
+    //single interior 
+
+    app.get('/singleinteriorproduct/:id', async(req,res)=>{
+      const id = req.params.id
+      console.log(id)
+
+      const query = {_id: ObjectId(id)}
+
+      const singleproduct= await interiors.findOne(query)
+
+      res.send(singleproduct)
+
+    })
+
+    //doorCategory
+    app.get('/category/door', async (req, res) => {
+      const result = await doorCategory.find().toArray();
+      res.send(result);
+    })
+    //get door with id
+    app.get('/category/door/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await doorCategory.findOne(query);
+      res.send(result);
+    })
+    //post door sub-category
+    app.post('/category/door', async (req, res) => {
+      const query = req.body;
+      const result = await doorCategory.insertOne(query)
+      res.send(result);
+    })
+    //delete a door
+    app.delete('/category/door/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await doorCategory.deleteOne(query);
+      res.send(result);
+    })
+
+
+    //diningCategory
+    app.get('/category/dining', async (req, res) => {
+      const result = await diningCategory.find().toArray();
+      res.send(result);
+    })
+    //get dining with id
+    app.get('/category/dining/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await diningCategory.findOne(query);
+      res.send(result);
+    })
+    //post dining sub-category
+    app.post('/category/dining', async (req, res) => {
+      const query = req.body;
+      const result = await diningCategory.insertOne(query)
+      res.send(result);
+    })
+    //delete a dining
+    app.delete('/category/dining/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await diningCategory.deleteOne(query);
+      res.send(result);
+    })
+
 
     // creating data
-    app.post('/', (req, res) => {});
+    app.post('/', (req, res) => { });
 
     // updating data
-    app.put('/', (req, res) => {});
+    app.put('/', (req, res) => { });
 
     // deleting data
-    app.delete('/', (req, res) => {});
+    app.delete('/', (req, res) => { });
   } finally {
     // await client.close();
   }
