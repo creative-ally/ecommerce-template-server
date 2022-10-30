@@ -45,6 +45,7 @@ const run = async () => {
     const officecategory = client.db('OfficeCollection').collection('officeCategories');
     const doorCategory = client.db('Categories').collection('doors');
     const diningCategory = client.db('Categories').collection('dining');
+    const blogsCollection = client.db('blogs').collection('blogs');
 
     // displaying all office category data
 
@@ -136,6 +137,18 @@ const run = async () => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await diningCategory.deleteOne(query);
+      res.send(result);
+    })
+
+    //adding Blogs by post 
+    app.post('/blogs', async (req,res)=>{
+      const newBlogs =req.body;
+      const result = await blogsCollection.insertOne(newBlogs);
+      res.send(result);
+    });
+    // getting blogs 
+    app.get('/blogs', async (req, res) => {
+      const result = await blogsCollection.find().toArray();
       res.send(result);
     })
 
