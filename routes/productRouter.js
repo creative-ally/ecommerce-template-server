@@ -22,7 +22,7 @@ router.post('/add', async (req, res) => {
   });
   try {
     const savedProduct = await newProduct.save();
-    console.log(savedProduct);
+    // console.log(savedProduct);
     res.status(200).json({
       message: 'New product added successfully!!',
       data: savedProduct,

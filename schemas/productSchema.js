@@ -1,13 +1,16 @@
 // dependencies
 const mongoose = require('mongoose');
 
+// creating schema for products
 const productSchema = mongoose.Schema(
   {
     name: {
       type: String,
+      required: true,
     },
     image: {
       type: String,
+      required: true,
     },
     category: {
       type: String,
@@ -18,12 +21,13 @@ const productSchema = mongoose.Schema(
       required: true,
     },
     price: {
-      type: String,
+      type: Number,
       required: true,
     },
     code: {
       type: String,
       required: true,
+      unique: true,
     },
     color: {
       type: Array,
@@ -31,9 +35,11 @@ const productSchema = mongoose.Schema(
     },
     material: {
       type: String,
+      required: true,
     },
     description: {
       type: String,
+      required: true,
     },
   },
   {

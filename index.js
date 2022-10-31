@@ -4,9 +4,10 @@ const express = require('express');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
-const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+// const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
-const productHandler = require('./routes/productHandler');
+// importing files
+const productRouter = require('./routes/productRouter');
 
 // important variables
 const app = express();
@@ -24,7 +25,7 @@ app.options('*', cors(corsConfig));
 app.use(express.json());
 
 // database connection with mongoose
-const uri = `mongodb+srv://${process.env.DB_AUTHOR}:${process.env.DB_PASSWORD}@cluster0.qdkjipz.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_AUTHOR}:${process.env.DB_PASSWORD}@cluster0.qdkjipz.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 mongoose
   .connect(uri, {
@@ -45,7 +46,7 @@ mongoose
 // });
 
 // application routes
-app.use('/api/product', productHandler);
+app.use('/product', productRouter);
 
 // displaying default response
 app.get('/', (req, res) => {
