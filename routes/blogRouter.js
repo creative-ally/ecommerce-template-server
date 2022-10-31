@@ -1,31 +1,25 @@
 // dependencies
 const express = require('express');
 const mongoose = require('mongoose');
-const Product = require('../models/Product');
+const Blog = require('../models/Blog');
 
 // router setup
 const router = express.Router();
 
-// Product adding
+// Blog adding
 // using async await and try-catch method to get the returned promise
 router.post('/', async (req, res) => {
-  const newProduct = new Product({
-    name: req.body.name,
-    subcategory: req.body.subcategory,
-    category: req.body.category,
+  const newBlog = new Blog({
+    title: req.body.title,
     image: req.body.image,
-    price: req.body.price,
-    code: req.body.code,
-    color: req.body.color,
-    material: req.body.material,
     description: req.body.description,
   });
   try {
-    const savedProduct = await newProduct.save();
-    // console.log(savedProduct);
+    const savedBlog = await newBlog.save();
+    // console.log(savedBlog);
     res.status(200).json({
-      message: 'New product added successfully!!',
-      data: savedProduct,
+      message: 'New Blog added successfully!!',
+      data: savedBlog,
     });
   } catch (err) {
     console.log(err);

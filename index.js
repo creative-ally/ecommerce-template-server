@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 
 // importing files
 const productRouter = require('./routes/productRouter');
+const blogRouter = require('./routes/blogRouter');
 
 // important variables
 const app = express();
@@ -46,7 +47,8 @@ mongoose
 // });
 
 // application routes
-app.use('/product', productRouter);
+app.use('/api/product', productRouter);
+app.use('/api/blog', blogRouter);
 
 // displaying default response
 app.get('/', (req, res) => {
