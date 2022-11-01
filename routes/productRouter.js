@@ -116,4 +116,20 @@ router.put('/:id', (req, res) => {
   ).clone();
 });
 
+// delete a product by id
+// using callback function to get returned promise
+router.delete('/:id', (req, res) => {
+  const id = req.params.id;
+  Product.deleteOne({ _id: id }, (err) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({ error: 'There is a server side error!' });
+    } else {
+      res.status(200).json({
+        message: 'Product was deleted successfully!!',
+      });
+    }
+  }).clone();
+});
+
 module.exports = router;
