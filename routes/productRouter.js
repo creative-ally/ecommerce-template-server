@@ -72,6 +72,81 @@ router.get('/', (req, res) => {
     });
 });
 
+// get office products
+// using async await and try-catch method to get the returned promise
+router.get('/office', async (req, res) => {
+  try {
+    const officeProduct = new Product();
+    const data = await officeProduct.findOfficeProduct();
+    res.status(200).json({
+      data,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'There is a server side error!' });
+  }
+});
+
+// get door products
+// using async await and try-catch method to get the returned promise
+router.get('/door', async (req, res) => {
+  try {
+    const doorProduct = new Product();
+    const data = await doorProduct.findDoorProduct();
+    res.status(200).json({
+      data,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'There is a server side error!' });
+  }
+});
+
+// get interior products
+// using async await and try-catch method to get the returned promise
+router.get('/interior', async (req, res) => {
+  try {
+    const interiorProduct = new Product();
+    const data = await interiorProduct.findInteriorProduct();
+    res.status(200).json({
+      data,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'There is a server side error!' });
+  }
+});
+
+// get dining products
+// using async await and try-catch method to get the returned promise
+router.get('/dining', async (req, res) => {
+  try {
+    const diningProduct = new Product();
+    const data = await diningProduct.findDiningProduct();
+    res.status(200).json({
+      data,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'There is a server side error!' });
+  }
+});
+
+// get bedroom products
+// using async await and try-catch method to get the returned promise
+router.get('/bedroom', async (req, res) => {
+  try {
+    const bedroomProduct = new Product();
+    const data = await bedroomProduct.findBedroomProduct();
+    res.status(200).json({
+      data,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'There is a server side error!' });
+  }
+});
+
 // displaying a product by id
 // using async await and try catch to get returned promise
 router.get('/:id', async (req, res) => {

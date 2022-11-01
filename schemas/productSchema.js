@@ -48,4 +48,23 @@ const productSchema = mongoose.Schema(
   }
 );
 
+// querying data thorugh instance methods process
+productSchema.methods = {
+  findOfficeProduct: function () {
+    return mongoose.model('Product').find({ category: 'Office' });
+  },
+  findDoorProduct: function () {
+    return mongoose.model('Product').find({ category: 'Door' });
+  },
+  findInteriorProduct: function () {
+    return mongoose.model('Product').find({ category: 'Interior' });
+  },
+  findDiningProduct: function () {
+    return mongoose.model('Product').find({ category: 'Dining' });
+  },
+  findBedroomProduct: function () {
+    return mongoose.model('Product').find({ category: 'Bedroom' });
+  },
+};
+
 module.exports = productSchema;
