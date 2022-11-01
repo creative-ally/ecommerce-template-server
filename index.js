@@ -57,17 +57,6 @@ app.get('/', (req, res) => {
   );
 });
 
-// const run = async () => {
-//   try {
-//     await client.connect();
-
-//     //display all collection
-
-//     const office = client.db('OfficeCollection').collection('office');
-//     const officecategory = client.db('OfficeCollection').collection('officeCategories');
-//     const doorCategory = client.db('Categories').collection('doors');
-//     const diningCategory = client.db('Categories').collection('dining');
-
 //     // displaying all office category data
 
 //     app.get('/officecategories', async (req, res) => {

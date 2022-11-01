@@ -6,7 +6,7 @@ const Product = require('../models/Product');
 // router setup
 const router = express.Router();
 
-// Product adding
+//  adding single product
 // using async await and try-catch method to get the returned promise
 router.post('/', async (req, res) => {
   const newProduct = new Product({
@@ -31,6 +31,23 @@ router.post('/', async (req, res) => {
     console.log(err);
     res.status(500).json({ error: 'There is a server side error!' });
   }
+});
+
+// adding multiple product
+// using callback function to get returned promise
+router.post('/all', (req, res) => {
+  const data = req.body;
+  Product.insertMany(data, (err) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({ error: 'There is a server side error!' });
+    } else {
+      res.status(200).json({
+        message: 'Todos added successfully!!',
+        data,
+      });
+    }
+  });
 });
 
 module.exports = router;

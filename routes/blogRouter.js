@@ -27,4 +27,21 @@ router.post('/', async (req, res) => {
   }
 });
 
+// adding multiple blog
+// using callback function to get returned promise
+router.post('/all', (req, res) => {
+  const data = req.body;
+  Blog.insertMany(data, (err) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({ error: 'There is a server side error!' });
+    } else {
+      res.status(200).json({
+        message: 'Todos added successfully!!',
+        data,
+      });
+    }
+  });
+});
+
 module.exports = router;
