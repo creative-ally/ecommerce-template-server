@@ -44,4 +44,26 @@ router.post('/all', (req, res) => {
   });
 });
 
+// displaying blogs
+// using callback function to get returned promise
+router.get('/', (req, res) => {
+  Blog.find({})
+    .select({
+      __v: 0,
+      createdAt: 0,
+      updatedAt: 0,
+    })
+    .exec((err, data) => {
+      if (err) {
+        // console.log(err);
+        res.status(500).json({ error: 'There is a server side error!' });
+      } else {
+        res.status(200).json({
+          result: data,
+          message: 'All blogs are shown here successfully!!',
+        });
+      }
+    });
+});
+
 module.exports = router;
