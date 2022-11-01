@@ -86,4 +86,28 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// update a blog by id
+// using callback function to get returned promise
+router.put('/:id', (req, res) => {
+  const id = req.params.id;
+  const result = Blog.findByIdAndUpdate(
+    { _id: id },
+    {
+      $set: {
+        title: 'Wooden Kitchen Rack',
+      },
+    },
+    (err) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json({ error: 'There is a server side error!' });
+      } else {
+        res.status(200).json({
+          message: 'Blog updated successfully!!',
+        });
+      }
+    }
+  ).clone();
+});
+
 module.exports = router;
