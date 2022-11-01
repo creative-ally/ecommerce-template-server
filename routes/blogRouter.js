@@ -66,4 +66,24 @@ router.get('/', (req, res) => {
     });
 });
 
+// displaying a blog by id
+// using async await and try-catch method to get the returned promise
+router.get('/:id', async (req, res) => {
+  const id = req.params.id;
+  try {
+    const data = await Blog.find({ _id: id }).select({
+      __v: 0,
+      createdAt: 0,
+      updatedAt: 0,
+    });
+    res.status(200).json({
+      result: data,
+      message: 'SUCCESS!!',
+    });
+  } catch (err) {
+    // console.log(err);
+    res.status(500).json({ error: 'There is a server side error!' });
+  }
+});
+
 module.exports = router;
