@@ -1,0 +1,11 @@
+* For product api:
+
+http://localhost:5000/api/product => post, get 
+http://localhost:5000/api/product/:id => get, put, delete
+http://localhost:5000/api/product/category_name => get
+
+category= Office, Door, Dining, Interior, Bedroom 
+
+* For blog api 
+http://localhost:5000/api/blog => post, get 
+http://localhost:5000/api/blog/:id => get, put, delete
