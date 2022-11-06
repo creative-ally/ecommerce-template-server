@@ -854,26 +854,5 @@
         ]
       }
     ]
-  },
-  {
-    "category": "Category Name",
-    "image": "",
-    "subcategory": [
-      {
-        "name": "Sub Category Name",
-        "image": "",
-        "products": [
-          {
-            "name": "Product Name",
-            "code": "",
-            "price": "",
-            "color": "",
-            "image": "",
-            "material": "",
-            "description": ""
-          }
-        ]
-      }
-    ]
   }
 ]
