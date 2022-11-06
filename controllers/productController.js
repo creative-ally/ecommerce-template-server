@@ -2,7 +2,7 @@
 const Product = require('../models/Product');
 
 // adding a single product
-const addProduct = async (req, res) => {
+const addProduct = async (req, res, next) => {
   const newProduct = new Product({
     name: req.body.name,
     subcategory: req.body.subcategory,
@@ -29,7 +29,7 @@ const addProduct = async (req, res) => {
 };
 
 // adding multiple products
-const addProducts = (req, res) => {
+const addProducts = (req, res, next) => {
   const data = req.body;
   Product.insertMany(data, (err) => {
     //insertMany is built-in keyword of mongoose which is used for inserting many datas in the database
@@ -46,7 +46,7 @@ const addProducts = (req, res) => {
 };
 
 // displaying products
-const getAllProducts = (req, res) => {
+const getAllProducts = (req, res, next) => {
   Product.find({}) // find is built-in keyword of mongoose which is used for finding data from the database based on the condition
     .select({
       // select is built-in keyword of mongoose which is used for selcting which collection field to display or not
@@ -69,7 +69,7 @@ const getAllProducts = (req, res) => {
 };
 
 // displaying office products
-const getOfficeProducts = async (req, res) => {
+const getOfficeProducts = async (req, res, next) => {
   try {
     const officeProduct = new Product();
     const data = await officeProduct.findOfficeProduct();
@@ -83,7 +83,7 @@ const getOfficeProducts = async (req, res) => {
 };
 
 // displaying door products
-const getDoorProducts = async (req, res) => {
+const getDoorProducts = async (req, res, next) => {
   try {
     const doorProduct = new Product();
     const data = await doorProduct.findDoorProduct();
@@ -97,7 +97,7 @@ const getDoorProducts = async (req, res) => {
 };
 
 // displaying interior products
-const getInteriorProducts = async (req, res) => {
+const getInteriorProducts = async (req, res, next) => {
   try {
     const interiorProduct = new Product();
     const data = await interiorProduct.findInteriorProduct();
@@ -111,7 +111,7 @@ const getInteriorProducts = async (req, res) => {
 };
 
 // displaying dining products
-const getDiningProducts = async (req, res) => {
+const getDiningProducts = async (req, res, next) => {
   try {
     const diningProduct = new Product();
     const data = await diningProduct.findDiningProduct();
@@ -125,7 +125,7 @@ const getDiningProducts = async (req, res) => {
 };
 
 // displaying bedroom products
-const getBedroomProducts = async (req, res) => {
+const getBedroomProducts = async (req, res, next) => {
   try {
     const bedroomProduct = new Product();
     const data = await bedroomProduct.findBedroomProduct();
@@ -139,7 +139,7 @@ const getBedroomProducts = async (req, res) => {
 };
 
 // displaying a product by id
-const getProduct = async (req, res) => {
+const getProduct = async (req, res, next) => {
   const id = req.params.id;
   try {
     const data = await Product.find({ _id: id }).select({
@@ -158,7 +158,7 @@ const getProduct = async (req, res) => {
 };
 
 // updating a product by id
-const updateProduct = (req, res) => {
+const updateProduct = (req, res, next) => {
   const id = req.params.id;
   Product.findByIdAndUpdate(
     // findByIdAndUpdate is built-in keyword of mongoose which is used for finding and updating data from the database based on the condition
@@ -183,7 +183,7 @@ const updateProduct = (req, res) => {
 };
 
 // removing a product by id
-const removeProduct = (req, res) => {
+const removeProduct = (req, res, next) => {
   const id = req.params.id;
   Product.deleteOne({ _id: id }, (err) => {
     //deleteOne is built-in keyword of mongoose which is used for deleting data from the database based on the condition

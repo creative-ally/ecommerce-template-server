@@ -2,7 +2,7 @@
 const Blog = require('../models/Blog');
 
 // adding a blog
-const addBlog = async (req, res) => {
+const addBlog = async (req, res, next) => {
   const newBlog = new Blog({
     title: req.body.title,
     image: req.body.image,
@@ -23,7 +23,7 @@ const addBlog = async (req, res) => {
 };
 
 // adding multiple blogs
-const addBlogs = (req, res) => {
+const addBlogs = (req, res, next) => {
   const data = req.body;
   Blog.insertMany(data, (err) => {
     //insertMany is built-in keyword of mongoose which is used for inserting many datas in the database
@@ -40,7 +40,7 @@ const addBlogs = (req, res) => {
 };
 
 // displaying blogs
-const getAllBlogs = (req, res) => {
+const getAllBlogs = (req, res, next) => {
   Blog.find({}) // find is built-in keyword of mongoose which is used for finding data from the database based on the condition
     .select({
       // select is built-in keyword of mongoose which is used for selcting which collection field to display or not
@@ -63,7 +63,7 @@ const getAllBlogs = (req, res) => {
 };
 
 // displaying a blog by id
-const getBlog = async (req, res) => {
+const getBlog = async (req, res, next) => {
   const id = req.params.id;
   try {
     const data = await Blog.find({ _id: id }).select({
@@ -82,7 +82,7 @@ const getBlog = async (req, res) => {
 };
 
 // updating a blog by id
-const updateBlog = (req, res) => {
+const updateBlog = (req, res, next) => {
   const id = req.params.id;
   Blog.findByIdAndUpdate(
     // findByIdAndUpdate is built-in keyword of mongoose which is used for finding and updating data from the database based on the condition
@@ -106,7 +106,7 @@ const updateBlog = (req, res) => {
 };
 
 // removing a blog by id
-const removeBlog = (req, res) => {
+const removeBlog = (req, res, next) => {
   const id = req.params.id;
   Blog.deleteOne({ _id: id }, (err) => {
     if (err) {
