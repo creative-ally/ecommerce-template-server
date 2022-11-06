@@ -1,5 +1,5 @@
 // external imports
-const dotenv = require('dotenv');
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
@@ -19,7 +19,6 @@ const corsConfig = {
 };
 
 // middleware
-dotenv.config();
 app.use(cors(corsConfig));
 app.options('*', cors(corsConfig));
 app.use(express.json());
