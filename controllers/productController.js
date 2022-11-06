@@ -138,6 +138,32 @@ const getBedroomProducts = async (req, res, next) => {
   }
 };
 
+// displaying products by category
+// const getProductsByCategory = async (req, res, next) => {
+//   try {
+//     const category = req.params.category;
+//     const products = await Product.find({ category: category });
+//     res.status(200).send({ success: 'success', data: products });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ error: 'There is a server side error!' });
+//   }
+// };
+
+// // displaying products by subcategory
+// const getProductsBySubcategory = async (req, res, next) => {
+//   try {
+//     const subcategory = req.params.subcategory;
+//     const products = await Product.find({
+//       subcategory: subcategory,
+//     });
+//     res.status(200).send({ success: 'success', data: products });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ error: 'There is a server side error!' });
+//   }
+// };
+
 // displaying a product by id
 const getProduct = async (req, res, next) => {
   const id = req.params.id;
@@ -202,6 +228,8 @@ module.exports = {
   addProduct,
   addProducts,
   getAllProducts,
+  // getProductsByCategory,
+  // getProductsBySubcategory,
   getOfficeProducts,
   getDoorProducts,
   getInteriorProducts,

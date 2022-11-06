@@ -6,6 +6,8 @@ const {
   addProduct,
   addProducts,
   getAllProducts,
+  // getProductsByCategory,
+  // getProductsBySubcategory,
   getOfficeProducts,
   getDoorProducts,
   getInteriorProducts,
@@ -23,6 +25,8 @@ router
   .post('/', addProduct)
   .post('/all', addProducts)
   .get('/', getAllProducts)
+  // .get('/:category', getProductsByCategory)
+  // .get('/category/:subcategory', getProductsBySubcategory)
   .get('/office', getOfficeProducts)
   .get('/door', getDoorProducts)
   .get('/interior', getInteriorProducts)
