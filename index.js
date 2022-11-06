@@ -34,9 +34,10 @@ app.use('/api/blog', blogRouter);
 
 // displaying default response
 app.get('/', (req, res) => {
-  res.send(
-    'Welcome to server of the ecommerce clone - developed by CreativeAlly'
-  );
+  res.send({
+    message:
+      'Welcome to server of the ecommerce clone - developed by CreativeAlly',
+  });
 });
 
 // 404 not found handler
