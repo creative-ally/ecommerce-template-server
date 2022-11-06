@@ -1,6 +1,8 @@
-// dependencies
+// external imports
 const express = require('express');
 const mongoose = require('mongoose');
+
+// internal imports
 const Blog = require('../models/Blog');
 
 // router setup
