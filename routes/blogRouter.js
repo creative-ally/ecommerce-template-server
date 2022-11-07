@@ -12,7 +12,9 @@ const {
 } = require('../controllers/blogController');
 
 // router setup
-const router = express.Router();
+const router = express.Router({
+  caseSensitive: true,
+});
 
 router
   .post('/', addBlog)
