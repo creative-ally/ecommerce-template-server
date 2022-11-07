@@ -54,10 +54,10 @@ router.get('/', (req, res) => {
       // select is built-in keyword of mongoose which is used for selcting which collection field to display or not
       __v: 0, // 0 means no needs to show
       createdAt: 0,
-      updatedAt: 0,
+      updatedAt: 0, //i.e name:0, name will not be shown
     })
     .exec((err, data) => {
-      // here is all execution is happening
+      // here  all execution is happening
       if (err) {
         console.log(err);
         res.status(500).json({ error: 'There is a server side error!' });
