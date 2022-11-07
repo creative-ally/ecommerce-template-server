@@ -49,6 +49,7 @@ app.use(errorHandler);
 // listening to the port
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
+
 });
 
 // if express fail to handle any error for that there's global errorHandler
@@ -59,3 +60,5 @@ process.on('unhandledRejection', (err) => {
     process.exit(1);
   });
 });
+});
+
