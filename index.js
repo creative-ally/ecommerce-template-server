@@ -1,15 +1,16 @@
-// dependencies
+// external imports
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
 
-// importing files
+// internal imports
 const productRouter = require('./routes/productRouter');
 const blogRouter = require('./routes/blogRouter');
+const databaseConnect = require('./utilities/databaseConnect');
+const { errorHandler } = require('./middlewares/common/errorHandler');
+const { notFoundHandler } = require('./middlewares/common/notFoundHandler');
 
-// important variables
+// app initialization
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -24,20 +25,8 @@ app.use(cors(corsConfig));
 app.options('*', cors(corsConfig));
 app.use(express.json());
 
-// database connection with mongoose
-const uri = `mongodb+srv://${process.env.DB_AUTHOR}:${process.env.DB_PASSWORD}@cluster0.qdkjipz.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
-
-mongoose
-  .connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log('DB connected!!');
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+// connecting to database
+databaseConnect();
 
 // setting-up application routes
 app.use('/api/product', productRouter);
@@ -45,10 +34,17 @@ app.use('/api/blog', blogRouter);
 
 // displaying default response
 app.get('/', (req, res) => {
-  res.send(
-    'Welcome to server of the ecommerce clone - developed by CreativeAlly'
-  );
+  res.send({
+    message:
+      'Welcome to server of the ecommerce clone - developed by CreativeAlly',
+  });
 });
+
+// 404 not found handler
+app.use(notFoundHandler);
+
+// common error handler
+app.use(errorHandler);
 
 // listening to the port
 app.listen(port, () => {
@@ -275,5 +271,17 @@ app.listen(port, () => {
 // // listening to the port
 // app.listen(port, () => {
 //   console.log(`Server running at http://localhost:${port}`);
+// });
+
+// });
+
+// if express fail to handle any error for that there's global errorHandler
+process.on('unhandledRejection', (err) => {
+  console.log(err.name);
+  console.log(err.message);
+  app.close(() => {
+    process.exit(1);
+  });
+});
 // });
 
