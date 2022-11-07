@@ -2,8 +2,8 @@
 
 http://localhost:5000/api/product => post, get 
 http://localhost:5000/api/product/:id => get, put, delete
-http://localhost:5000/api/product/:category_name => get
-http://localhost:5000/api/product/:category_name/:code => get
+http://localhost:5000/api/product/category/:category_name => get category
+http://localhost:5000/api/product/category/:category_name/:code => get subcategory
 
 category= Office, Door, Dining, Interior, Bedroom 
 
