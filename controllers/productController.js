@@ -1,6 +1,7 @@
 // internal imports
 const Product = require('../models/Product');
 
+
 // adding a single product
 const addProduct = async (req, res, next) => {
   const newProduct = new Product({
@@ -150,19 +151,19 @@ const getBedroomProducts = async (req, res, next) => {
 //   }
 // };
 
-// // displaying products by subcategory
-// const getProductsBySubcategory = async (req, res, next) => {
-//   try {
-//     const subcategory = req.params.subcategory;
-//     const products = await Product.find({
-//       subcategory: subcategory,
-//     });
-//     res.status(200).send({ success: 'success', data: products });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ error: 'There is a server side error!' });
-//   }
-// };
+// displaying products by subcategory
+const getProductsBySubcategory = async (req, res, next) => {
+  try {
+    const code = req.params.code;
+    const products = await Product.find({
+      code: code,
+    });
+    res.status(200).send({ success: 'success', data: products });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'There is a server side error!' });
+  }
+};
 
 // displaying a product by id
 const getProduct = async (req, res, next) => {
@@ -229,7 +230,7 @@ module.exports = {
   addProducts,
   getAllProducts,
   // getProductsByCategory,
-  // getProductsBySubcategory,
+  getProductsBySubcategory,
   getOfficeProducts,
   getDoorProducts,
   getInteriorProducts,
