@@ -6,13 +6,13 @@ const {
   addProduct,
   addProducts,
   getAllProducts,
-  // getProductsByCategory,
-  // getProductsBySubcategory,
-  getOfficeProducts,
-  getDoorProducts,
-  getInteriorProducts,
-  getDiningProducts,
-  getBedroomProducts,
+  getProductsByCategory,
+  getProductsByCode,
+  // getOfficeProducts,
+  // getDoorProducts,
+  // getInteriorProducts,
+  // getDiningProducts,
+  // getBedroomProducts,
   getProduct,
   updateProduct,
   removeProduct,
@@ -24,15 +24,15 @@ const router = express.Router();
 router
   .post('/', addProduct)
   .post('/all', addProducts)
-  .get('/', getAllProducts)
-  // .get('/:category', getProductsByCategory)
-  // .get('/category/:subcategory', getProductsBySubcategory)
-  .get('/office', getOfficeProducts)
-  .get('/door', getDoorProducts)
-  .get('/interior', getInteriorProducts)
-  .get('/dining', getDiningProducts)
-  .get('/bedroom', getBedroomProducts)
   .get('/:id', getProduct)
+  .get('/', getAllProducts)
+  .get('/:category', getProductsByCategory)
+  .get('/:category/:code', getProductsByCode)
+  // .get('/office', getOfficeProducts)
+  // .get('/door', getDoorProducts)
+  // .get('/interior', getInteriorProducts)
+  // .get('/dining', getDiningProducts)
+  // .get('/bedroom', getBedroomProducts)
   .put('/:id', updateProduct)
   .delete('/:id', removeProduct);
 

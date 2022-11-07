@@ -68,101 +68,101 @@ const getAllProducts = (req, res, next) => {
     });
 };
 
-// displaying office products
-const getOfficeProducts = async (req, res, next) => {
-  try {
-    const officeProduct = new Product();
-    const data = await officeProduct.findOfficeProduct();
-    res.status(200).json({
-      data,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: 'There is a server side error!' });
-  }
-};
+// // displaying office products
+// const getOfficeProducts = async (req, res, next) => {
+//   try {
+//     const officeProduct = new Product();
+//     const data = await officeProduct.findOfficeProduct();
+//     res.status(200).json({
+//       data,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ error: 'There is a server side error!' });
+//   }
+// };
 
-// displaying door products
-const getDoorProducts = async (req, res, next) => {
-  try {
-    const doorProduct = new Product();
-    const data = await doorProduct.findDoorProduct();
-    res.status(200).json({
-      data,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: 'There is a server side error!' });
-  }
-};
+// // displaying door products
+// const getDoorProducts = async (req, res, next) => {
+//   try {
+//     const doorProduct = new Product();
+//     const data = await doorProduct.findDoorProduct();
+//     res.status(200).json({
+//       data,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ error: 'There is a server side error!' });
+//   }
+// };
 
-// displaying interior products
-const getInteriorProducts = async (req, res, next) => {
-  try {
-    const interiorProduct = new Product();
-    const data = await interiorProduct.findInteriorProduct();
-    res.status(200).json({
-      data,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: 'There is a server side error!' });
-  }
-};
+// // displaying interior products
+// const getInteriorProducts = async (req, res, next) => {
+//   try {
+//     const interiorProduct = new Product();
+//     const data = await interiorProduct.findInteriorProduct();
+//     res.status(200).json({
+//       data,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ error: 'There is a server side error!' });
+//   }
+// };
 
-// displaying dining products
-const getDiningProducts = async (req, res, next) => {
-  try {
-    const diningProduct = new Product();
-    const data = await diningProduct.findDiningProduct();
-    res.status(200).json({
-      data,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: 'There is a server side error!' });
-  }
-};
+// // displaying dining products
+// const getDiningProducts = async (req, res, next) => {
+//   try {
+//     const diningProduct = new Product();
+//     const data = await diningProduct.findDiningProduct();
+//     res.status(200).json({
+//       data,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ error: 'There is a server side error!' });
+//   }
+// };
 
-// displaying bedroom products
-const getBedroomProducts = async (req, res, next) => {
-  try {
-    const bedroomProduct = new Product();
-    const data = await bedroomProduct.findBedroomProduct();
-    res.status(200).json({
-      data,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: 'There is a server side error!' });
-  }
-};
+// // displaying bedroom products
+// const getBedroomProducts = async (req, res, next) => {
+//   try {
+//     const bedroomProduct = new Product();
+//     const data = await bedroomProduct.findBedroomProduct();
+//     res.status(200).json({
+//       data,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ error: 'There is a server side error!' });
+//   }
+// };
 
 // displaying products by category
-// const getProductsByCategory = async (req, res, next) => {
-//   try {
-//     const category = req.params.category;
-//     const products = await Product.find({ category: category });
-//     res.status(200).send({ success: 'success', data: products });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ error: 'There is a server side error!' });
-//   }
-// };
+const getProductsByCategory = async (req, res, next) => {
+  try {
+    const category = req.params.category;
+    const products = await Product.find({ category: category });
+    res.status(200).send({ success: 'success', data: products });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'There is a server side error!' });
+  }
+};
 
-// // displaying products by subcategory
-// const getProductsBySubcategory = async (req, res, next) => {
-//   try {
-//     const subcategory = req.params.subcategory;
-//     const products = await Product.find({
-//       subcategory: subcategory,
-//     });
-//     res.status(200).send({ success: 'success', data: products });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ error: 'There is a server side error!' });
-//   }
-// };
+// displaying products by subcategory
+const getProductsByCode = async (req, res, next) => {
+  try {
+    const { category, code } = req.params;
+    const products = await Product.find({
+      $and: [{ category: { $eq: category } }, { code: { $eq: code } }],
+    });
+    res.status(200).send({ success: 'success', data: products });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'There is a server side error!' });
+  }
+};
 
 // displaying a product by id
 const getProduct = async (req, res, next) => {
@@ -228,13 +228,13 @@ module.exports = {
   addProduct,
   addProducts,
   getAllProducts,
-  // getProductsByCategory,
-  // getProductsBySubcategory,
-  getOfficeProducts,
-  getDoorProducts,
-  getInteriorProducts,
-  getDiningProducts,
-  getBedroomProducts,
+  getProductsByCategory,
+  getProductsByCode,
+  // getOfficeProducts,
+  // getDoorProducts,
+  // getInteriorProducts,
+  // getDiningProducts,
+  // getBedroomProducts,
   getProduct,
   updateProduct,
   removeProduct,
