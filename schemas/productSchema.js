@@ -7,7 +7,7 @@ const productSchema = mongoose.Schema(
     name: {
       type: String,
       required: [true, 'Please provide a product name'],
-      trim: true,
+      // trim: true,
       // unique: [true, 'This product is already in!'],
       minLength: [5, 'Name must be at least 5 characters'],
       maxLength: [100, 'Name is too long'],
@@ -19,7 +19,7 @@ const productSchema = mongoose.Schema(
     category: {
       type: String,
       required: [true, 'Please provide a product category name'],
-      trim: true,
+      // trim: true,
       minLength: [3, 'Category name must be at least 3 characters'],
       maxLength: [100, 'Category name is too long'],
     },
