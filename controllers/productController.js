@@ -8,11 +8,13 @@ const Product = require('../models/Product');
 const addProduct = async (req, res, next) => {
   const newProduct = new Product({
     name: req.body.name,
-    subcategory: req.body.subcategory,
-    category: req.body.category,
     image: req.body.image,
+    category: req.body.category,
+    subcategory: req.body.subcategory,
     price: req.body.price,
     code: req.body.code,
+    quantity: req.body.quantity,
+    status: req.body.status,
     color: req.body.color,
     material: req.body.material,
     description: req.body.description,

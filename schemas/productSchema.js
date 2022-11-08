@@ -8,7 +8,7 @@ const productSchema = mongoose.Schema(
       type: String,
       required: [true, 'Please provide a product name'],
       trim: true,
-      unique: [true, 'This product is already in!'],
+      // unique: [true, 'This product is already in!'],
       minLength: [5, 'Name must be at least 5 characters'],
       maxLength: [100, 'Name is too long'],
     },
@@ -20,14 +20,14 @@ const productSchema = mongoose.Schema(
       type: String,
       required: [true, 'Please provide a product category name'],
       trim: true,
-      minLength: [5, 'Category name must be at least 5 characters'],
+      minLength: [3, 'Category name must be at least 3 characters'],
       maxLength: [100, 'Category name is too long'],
     },
     subcategory: {
       type: String,
       required: [true, 'Please provide a product subcategory name'],
       // trim: true,
-      minLength: [5, 'Subcategory name must be at least 5 characters'],
+      minLength: [3, 'Subcategory name must be at least 3 characters'],
       maxLength: [100, 'Subcategory name is too long'],
     },
     price: {
@@ -39,11 +39,23 @@ const productSchema = mongoose.Schema(
       type: String,
       required: [true, 'Please provide a product code'],
       minLength: [5, 'Product code must be at least 5 characters'],
-      maxLength: [8, 'Product code is too long'],
+      maxLength: [10, 'Product code is too long'],
     },
-    color: {
-      type: Array,
-      required: [true, 'Please provide a color code'],
+    quantity: {
+      type: Number,
+      required: true,
+      min: [0, 'Quantity can not be less than 0'],
+      validate: {
+        validator: (val) => {
+          const isInteger = Number.isInteger(val);
+          if (isInteger) {
+            return true;
+          } else {
+            return false;
+          }
+        },
+      },
+      message: 'Quantity must be integer',
     },
     status: {
       type: String,
@@ -52,7 +64,10 @@ const productSchema = mongoose.Schema(
         values: ['in-stock', 'out-of-stock'],
         message: 'Status can not be ignored',
       },
-      default: 'in-stock',
+    },
+    color: {
+      type: Array,
+      required: [true, 'Please provide a color code'],
     },
     material: {
       type: String,
