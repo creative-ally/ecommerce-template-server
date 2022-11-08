@@ -53,7 +53,7 @@ const getAllProducts = (req, res, next) => {
   Product.find({}) // find is built-in keyword of mongoose which is used for finding data from the database based on the condition
     .select({
       // select is built-in keyword of mongoose which is used for selcting which collection field to display or not
-      __v: 0, // 0 means no needs to show
+      __v: 0, // 0 means no needs to show and 1 means show. But, cannot use 1 or 0 together, either 0 or 1 should be used
       createdAt: 0,
       updatedAt: 0,
     })
@@ -181,6 +181,34 @@ const getProductsByCode = async (req, res, next) => {
   }
 };
 
+// displaying products by search
+const getProductsBySearch = async (req, res, next) => {
+  const { search } = req.params;
+  // console.log(search);
+  try {
+    const data = await Product.find({
+      $or: [
+        { name: { $regex: search, $options: 'i' } },
+        { category: { $regex: search, $options: 'i' } },
+        { code: { $regex: search, $options: 'i' } },
+      ],
+    })
+      .select({
+        __v: 0,
+        createdAt: 0,
+        updatedAt: 0,
+      })
+      .exec();
+    res.status(200).json({
+      data,
+      message: 'SUCCESS!!',
+    });
+  } catch (err) {
+    // console.log(err);
+    res.status(500).json({ error: 'There is a server side error!' });
+  }
+};
+
 // displaying a product by id
 const getProduct = async (req, res, next) => {
   const id = req.params.id;
@@ -253,6 +281,7 @@ module.exports = {
   getAllProducts,
   getProductsByCategory,
   getProductsByCode,
+  getProductsBySearch,
   // getOfficeProducts,
   // getDoorProducts,
   // getInteriorProducts,
