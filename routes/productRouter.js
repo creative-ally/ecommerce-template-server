@@ -8,6 +8,7 @@ const {
   getAllProducts,
   getProductsByCategory,
   getProductsByCode,
+  getProductsBySearch,
   // getOfficeProducts,
   // getDoorProducts,
   // getInteriorProducts,
@@ -29,6 +30,7 @@ router
   .get('/', getAllProducts)
   .get('/category/:category', getProductsByCategory)
   .get('/category/:category/:code', getProductsByCode)
+  .get('/search/:search', getProductsBySearch)
   .get('/:id', getProduct)
   .put('/:id', updateProduct)
   .delete('/:id', removeProduct);
