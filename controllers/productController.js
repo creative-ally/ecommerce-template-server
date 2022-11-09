@@ -153,8 +153,8 @@ const getProductsByCategory = async (req, res, next) => {
       updatedAt: 0,
     });
     res.status(200).json({
-      data,
       message: 'SUCCESS!!',
+      data,
     });
   } catch (err) {
     // console.log(err);
@@ -174,8 +174,8 @@ const getProductsByCode = async (req, res, next) => {
       updatedAt: 0,
     });
     res.status(200).json({
-      data,
       message: 'SUCCESS!!',
+      data,
     });
   } catch (err) {
     // console.log(err);
@@ -202,8 +202,8 @@ const getProductsBySearch = async (req, res, next) => {
       })
       .exec();
     res.status(200).json({
-      data,
       message: 'SUCCESS!!',
+      data,
     });
   } catch (err) {
     // console.log(err);
@@ -224,8 +224,8 @@ const getProduct = async (req, res, next) => {
         updatedAt: 0,
       });
       res.status(200).json({
-        data,
         message: 'SUCCESS!!',
+        data,
       });
     } catch (err) {
       console.log(err);
@@ -239,14 +239,16 @@ const getProduct = async (req, res, next) => {
 // updating a product by id
 const updateProduct = (req, res, next) => {
   const id = req.params.id;
+  const updatedProduct = req.body;
+  const opts = { runValidators: true };
   Product.findByIdAndUpdate(
     // findByIdAndUpdate is built-in keyword of mongoose which is used for finding and updating data from the database based on the condition
     { _id: id },
     {
-      $set: {
-        // just manually updating data
-        price: 25195,
-      },
+      $set: updatedProduct,
+    },
+    {
+      opts,
     },
     (err) => {
       if (err) {
@@ -255,6 +257,7 @@ const updateProduct = (req, res, next) => {
       } else {
         res.status(200).json({
           message: 'Product updated successfully!!',
+          data: updatedProduct,
         });
       }
     }

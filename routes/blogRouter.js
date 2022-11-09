@@ -16,12 +16,10 @@ const router = express.Router({
   caseSensitive: true,
 });
 
-router
-  .post('/', addBlog)
-  .post('/all', addBlogs)
-  .get('/', getAllBlogs)
-  .get('/:id', getBlog)
-  .put('/:id', updateBlog)
-  .delete('/:id', removeBlog);
+router.route('/').post(addBlog).get(getAllBlogs);
+
+router.route('/all').post(addBlogs);
+
+router.route('/:id').get(getBlog).put(updateBlog).delete(removeBlog);
 
 module.exports = router;

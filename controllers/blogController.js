@@ -55,8 +55,8 @@ const getAllBlogs = (req, res, next) => {
         res.status(500).json({ error: 'There is a server side error!' });
       } else {
         res.status(200).json({
-          data,
           message: 'All blogs are shown here successfully!!',
+          data,
         });
       }
     });
@@ -72,8 +72,8 @@ const getBlog = async (req, res, next) => {
       updatedAt: 0,
     });
     res.status(200).json({
-      data,
       message: 'SUCCESS!!',
+      data,
     });
   } catch (err) {
     // console.log(err);
@@ -84,13 +84,16 @@ const getBlog = async (req, res, next) => {
 // updating a blog by id
 const updateBlog = (req, res, next) => {
   const id = req.params.id;
+  const updatedBlog = req.body;
+  const opts = { runValidators: true };
   Blog.findByIdAndUpdate(
     // findByIdAndUpdate is built-in keyword of mongoose which is used for finding and updating data from the database based on the condition
     { _id: id },
     {
-      $set: {
-        title: 'Hatil Furniture Top 5 Wardrobe Designs', // just manually updating data
-      },
+      $set: updatedBlog,
+    },
+    {
+      opts,
     },
     (err) => {
       if (err) {
@@ -99,6 +102,7 @@ const updateBlog = (req, res, next) => {
       } else {
         res.status(200).json({
           message: 'Blog updated successfully!!',
+          data: updatedBlog,
         });
       }
     }
