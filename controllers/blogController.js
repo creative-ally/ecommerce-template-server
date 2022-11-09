@@ -1,3 +1,6 @@
+// external imports
+const mongoose = require('mongoose');
+
 // internal imports
 const Blog = require('../models/Blog');
 
@@ -65,18 +68,22 @@ const getAllBlogs = (req, res, next) => {
 // displaying a blog by id
 const getBlog = async (req, res, next) => {
   const id = req.params.id;
-  try {
-    const data = await Blog.find({ _id: id }).select({
-      __v: 0,
-      createdAt: 0,
-      updatedAt: 0,
-    });
-    res.status(200).json({
-      message: 'SUCCESS!!',
-      data,
-    });
-  } catch (err) {
-    // console.log(err);
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    try {
+      const data = await Blog.find({ _id: id }).select({
+        __v: 0,
+        createdAt: 0,
+        updatedAt: 0,
+      });
+      res.status(200).json({
+        message: 'SUCCESS!!',
+        data,
+      });
+    } catch (err) {
+      // console.log(err);
+      res.status(500).json({ error: 'There is a server side error!' });
+    }
+  } else {
     res.status(500).json({ error: 'There is a server side error!' });
   }
 };
