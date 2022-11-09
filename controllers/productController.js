@@ -215,7 +215,6 @@ const getProductsBySearch = async (req, res, next) => {
 const getProduct = async (req, res, next) => {
   const id = req.params.id;
   // console.log(id);
-
   if (mongoose.Types.ObjectId.isValid(id)) {
     try {
       const data = await Product.find({ _id: id }).select({
