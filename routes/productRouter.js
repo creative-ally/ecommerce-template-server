@@ -24,16 +24,17 @@ const router = express.Router({
   caseSensitive: true,
 });
 
-router
-  .post('/', addProduct)
-  .post('/all', addProducts)
-  .get('/', getAllProducts)
-  .get('/category/:category', getProductsByCategory)
-  .get('/category/:category/:code', getProductsByCode)
-  .get('/search/:search', getProductsBySearch)
-  .get('/:id', getProduct)
-  .put('/:id', updateProduct)
-  .delete('/:id', removeProduct);
+router.route('/').post(addProduct).get(getAllProducts);
+
+router.route('/all').post(addProducts);
+
+router.route('/category/:category').get(getProductsByCategory);
+
+router.route('/category/:category/:code').get(getProductsByCode);
+
+router.route('/search/:search').get(getProductsBySearch);
+
+router.route('/:id').get(getProduct).put(updateProduct).delete(removeProduct);
 
 // .get('/office', getOfficeProducts)
 // .get('/door', getDoorProducts)
