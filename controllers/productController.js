@@ -1,3 +1,6 @@
+// external imports
+const mongoose = require('mongoose');
+
 // internal imports
 const Product = require('../models/Product');
 
@@ -69,107 +72,81 @@ const getAllProducts = (req, res, next) => {
     });
 };
 
-// displaying office products
-const getOfficeProducts = async (req, res, next) => {
-  try {
-    const officeProduct = new Product();
-    const data = await officeProduct.findOfficeProduct();
-    res.status(200).json({
-      data,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: 'There is a server side error!' });
-  }
-};
-
-// displaying door products
-const getDoorProducts = async (req, res, next) => {
-  try {
-    const doorProduct = new Product();
-    const data = await doorProduct.findDoorProduct();
-    res.status(200).json({
-      data,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: 'There is a server side error!' });
-  }
-};
-
-// displaying interior products
-const getInteriorProducts = async (req, res, next) => {
-  try {
-    const interiorProduct = new Product();
-    const data = await interiorProduct.findInteriorProduct();
-    res.status(200).json({
-      data,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: 'There is a server side error!' });
-  }
-};
-
-// displaying dining products
-const getDiningProducts = async (req, res, next) => {
-  try {
-    const diningProduct = new Product();
-    const data = await diningProduct.findDiningProduct();
-    res.status(200).json({
-      data,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: 'There is a server side error!' });
-  }
-};
-
-// displaying bedroom products
-const getBedroomProducts = async (req, res, next) => {
-  try {
-    const bedroomProduct = new Product();
-    const data = await bedroomProduct.findBedroomProduct();
-    res.status(200).json({
-      data,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: 'There is a server side error!' });
-  }
-};
-
-// displaying products by category
-// const getProductsByCategory = async (req, res, next) => {
+// // displaying office products
+// const getOfficeProducts = async (req, res, next) => {
 //   try {
-//     const category = req.params.category;
-//     const products = await Product.find({ category: category });
-//     res.status(200).send({ success: 'success', data: products });
+//     const officeProduct = new Product();
+//     const data = await officeProduct.findOfficeProduct();
+//     res.status(200).json({
+//       data,
+//     });
 //   } catch (err) {
 //     console.log(err);
 //     res.status(500).json({ error: 'There is a server side error!' });
 //   }
 // };
 
-// displaying products by subcategory
-const getProductsBySubcategory = async (req, res, next) => {
-  try {
-    const code = req.params.code;
-    const products = await Product.find({
-      code: code,
-    });
-    res.status(200).send({ success: 'success', data: products });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: 'There is a server side error!' });
-  }
-};
+// // displaying door products
+// const getDoorProducts = async (req, res, next) => {
+//   try {
+//     const doorProduct = new Product();
+//     const data = await doorProduct.findDoorProduct();
+//     res.status(200).json({
+//       data,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ error: 'There is a server side error!' });
+//   }
+// };
 
-// displaying a product by id
-const getProduct = async (req, res, next) => {
-  const id = req.params.id;
+// // displaying interior products
+// const getInteriorProducts = async (req, res, next) => {
+//   try {
+//     const interiorProduct = new Product();
+//     const data = await interiorProduct.findInteriorProduct();
+//     res.status(200).json({
+//       data,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ error: 'There is a server side error!' });
+//   }
+// };
+
+// // displaying dining products
+// const getDiningProducts = async (req, res, next) => {
+//   try {
+//     const diningProduct = new Product();
+//     const data = await diningProduct.findDiningProduct();
+//     res.status(200).json({
+//       data,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ error: 'There is a server side error!' });
+//   }
+// };
+
+// // displaying bedroom products
+// const getBedroomProducts = async (req, res, next) => {
+//   try {
+//     const bedroomProduct = new Product();
+//     const data = await bedroomProduct.findBedroomProduct();
+//     res.status(200).json({
+//       data,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ error: 'There is a server side error!' });
+//   }
+// };
+
+// displaying products by category
+const getProductsByCategory = async (req, res, next) => {
+  const category = req.params.category;
   try {
-    const data = await Product.find({ _id: id }).select({
+    const data = await Product.find({ category: category }).select({
       __v: 0,
       createdAt: 0,
       updatedAt: 0,
@@ -180,6 +157,52 @@ const getProduct = async (req, res, next) => {
     });
   } catch (err) {
     // console.log(err);
+    res.status(500).json({ error: 'There is a server side error!' });
+  }
+};
+
+// displaying products by subcategory
+const getProductsByCode = async (req, res, next) => {
+  const { category, code } = req.params;
+  try {
+    const data = await Product.find({
+      $and: [{ category: { $eq: category } }, { code: { $eq: code } }],
+    }).select({
+      __v: 0,
+      createdAt: 0,
+      updatedAt: 0,
+    });
+    res.status(200).json({
+      data,
+      message: 'SUCCESS!!',
+    });
+  } catch (err) {
+    // console.log(err);
+    res.status(500).json({ error: 'There is a server side error!' });
+  }
+};
+
+// displaying a product by id
+const getProduct = async (req, res, next) => {
+  const id = req.params.id;
+  // console.log(id);
+
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    try {
+      const data = await Product.findOne({ _id: id }).select({
+        __v: 0,
+        createdAt: 0,
+        updatedAt: 0,
+      });
+      res.status(200).json({
+        data,
+        message: 'SUCCESS!!',
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: 'There is a server side error!' });
+    }
+  } else {
     res.status(500).json({ error: 'There is a server side error!' });
   }
 };
@@ -229,13 +252,13 @@ module.exports = {
   addProduct,
   addProducts,
   getAllProducts,
-  // getProductsByCategory,
-  getProductsBySubcategory,
-  getOfficeProducts,
-  getDoorProducts,
-  getInteriorProducts,
-  getDiningProducts,
-  getBedroomProducts,
+  getProductsByCategory,
+  getProductsByCode,
+  // getOfficeProducts,
+  // getDoorProducts,
+  // getInteriorProducts,
+  // getDiningProducts,
+  // getBedroomProducts,
   getProduct,
   updateProduct,
   removeProduct,
