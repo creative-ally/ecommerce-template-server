@@ -1,8 +1,8 @@
 // dependencies
 const mongoose = require('mongoose');
 
-// creating schema for cart
-const cartSchema = mongoose.Schema(
+// creating schema for order
+const orderSchema = mongoose.Schema(
   {
     userId: { type: String, required: true },
     products: [
@@ -28,12 +28,15 @@ const cartSchema = mongoose.Schema(
         },
       },
     ],
-    totalPrice: {
+    totalCost: {
       type: Number,
       required: true,
     },
+    amount: { type: Number, required: true },
+    address: { type: Object, required: true },
+    status: { type: String, default: 'pending' },
   },
   { timestamps: true }
 );
 
-module.exports = cartSchema;
+module.exports = orderSchema;
