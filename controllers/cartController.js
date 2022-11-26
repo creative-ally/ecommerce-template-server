@@ -3,7 +3,7 @@ const Cart = require('../models/Cart');
 
 
 const addCart = async (req, res, next) => {
-    const newCart = new addCart(req.body);
+    const newCart = new Cart(req.body);
     try {
         const savedCart = await newCart.save(); // save method is built-in keyword of mongoose which is used for inserting data in the database
         // console.log(savedProduct);
@@ -40,7 +40,72 @@ const getAllCartItems = (req, res, next) => {
             }
         });
 };
+
+//get cartItems by email
+const getCartItems = async (req, res, next) => {
+    const email = req.params.email;
+    try {
+      const data = await Cart.find({ email: email }).select({
+        __v: 0,
+        createdAt: 0,
+        updatedAt: 0,
+      });
+      res.status(200).json({
+        message: 'SUCCESS!!',
+        data,
+      });
+    } catch (err) {
+      // console.log(err);
+      res.status(500).json({ error: 'There is a server side error!' });
+    }
+  };
+
+//cartItemShowing with id
+const getCartItem = async (req, res, next) => {
+    const id = req.params.id;
+    console.log(id);
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      try {
+        const data = await Cart.findOne({ _id: id }).select({
+          __v: 0,
+          createdAt: 0,
+          updatedAt: 0,
+        });
+        res.status(200).json({
+          message: 'SUCCESS!!',
+          data,
+        });
+      } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: 'There is a server side error!' });
+      }
+    } else {
+      res.status(500).json({ error: 'There is a server side error!' });
+    }
+  };
+
+//remove an item from cart
+const removeCartItem = (req, res, next) => {
+    const id = req.params.id;
+    Cart.deleteOne({ _id: id }, (err) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json({ error: 'There is a server side error!' });
+      } else {
+        res.status(200).json({
+          message: 'Cart item was deleted successfully!!',
+        });
+      }
+    }).clone();
+  };
+
+
+
+
 module.exports = {
     addCart,
-    getAllCartItems
+    getAllCartItems,
+    getCartItems,
+    getCartItem,
+    removeCartItem,
 };
