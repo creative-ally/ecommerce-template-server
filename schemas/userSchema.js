@@ -16,7 +16,7 @@ const userSchema = mongoose.Schema(
       required: [true, 'Please provide your email'],
       unique: [true, 'This user is already in!'],
     },
-    password: { type: String, required: true },
+    password: { type: String },
     isAdmin: {
       type: Boolean,
       default: false,
