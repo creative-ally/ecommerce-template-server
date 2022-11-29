@@ -16,8 +16,15 @@ const userSchema = mongoose.Schema(
       required: [true, 'Please provide your email'],
       unique: [true, 'This user is already in!'],
     },
-    password: { type: String },
+    password: {
+      type: String,
+      minLength: [6, 'Password must be at least 3 letters'],
+    },
     isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    isSignInWithGoogle: {
       type: Boolean,
       default: false,
     },
