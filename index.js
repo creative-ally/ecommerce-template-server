@@ -7,7 +7,6 @@ const cors = require('cors');
 const productRouter = require('./routes/productRouter');
 const blogRouter = require('./routes/blogRouter');
 const databaseConnect = require('./utilities/databaseConnect');
-const { errorHandler } = require('./middlewares/common/errorHandler');
 const { notFoundHandler } = require('./middlewares/common/notFoundHandler');
 
 // app initialization
@@ -28,10 +27,6 @@ app.use(express.json());
 // connecting to database
 databaseConnect();
 
-// setting-up application routes
-app.use('/api/product', productRouter);
-app.use('/api/blog', blogRouter);
-
 // displaying default response
 app.get('/', (req, res) => {
   res.send({
@@ -40,11 +35,12 @@ app.get('/', (req, res) => {
   });
 });
 
+// setting-up application routes
+app.use('/api/product', productRouter);
+app.use('/api/blog', blogRouter);
+
 // 404 not found handler
 app.use(notFoundHandler);
-
-// common error handler
-app.use(errorHandler);
 
 // listening to the port
 app.listen(port, () => {
