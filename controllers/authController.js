@@ -1,6 +1,6 @@
 // external import
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 // internal import
 const User = require('../models/User');

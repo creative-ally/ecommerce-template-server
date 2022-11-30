@@ -6,6 +6,7 @@ const cors = require('cors');
 // internal imports
 const productRouter = require('./routes/productRouter');
 const blogRouter = require('./routes/blogRouter');
+const authRouter = require('./routes/authRouter');
 const databaseConnect = require('./utilities/databaseConnect');
 const { notFoundHandler } = require('./middlewares/common/notFoundHandler');
 
@@ -38,6 +39,7 @@ app.get('/', (req, res) => {
 // setting-up application routes
 app.use('/api/product', productRouter);
 app.use('/api/blog', blogRouter);
+app.use('/api/auth', authRouter);
 
 // 404 not found handler
 app.use(notFoundHandler);
