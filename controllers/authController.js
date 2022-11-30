@@ -56,17 +56,17 @@ const signUp = async (req, res) => {
       password: hashedPassword,
     });
 
-    const result = await newUser.save();
-    console.log(result);
+    const savedUser = await newUser.save();
+    console.log(savedUser);
     // const token = jwt.sign(
-    //   { email: result.email },
+    //   { email: savedUser.email },
     //   process.env.ACCESS_TOKEN_SECRET,
     //   { expiresIn: '86400s' }
     // );
 
     res.status(200).json({
       message: 'User added successfully!!',
-      data: result,
+      data: savedUser,
       //   accessToken: token,
     });
   } catch (error) {
