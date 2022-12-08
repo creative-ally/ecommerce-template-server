@@ -17,6 +17,6 @@ router.route('/sign-in').post(signIn);
 
 router.route('/sign-up').post(signUp);
 
-router.route('/google/:email').put(googleSignIn);
+router.route('/google/sign-in').post(googleSignIn);
 
 module.exports = router;
