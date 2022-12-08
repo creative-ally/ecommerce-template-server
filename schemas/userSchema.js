@@ -20,6 +20,16 @@ const userSchema = mongoose.Schema(
       type: String,
       minLength: [6, 'Password must be at least 3 letters'],
     },
+    image: {
+      type: String,
+      default: 'https://ibb.co/0FJd9Jz',
+    },
+    phone: {
+      type: String,
+      minLength: [11, 'Phone number must be at least 11 letters'],
+      minLength: [14, 'Phone number must be use Country Code'],
+      default: '+8801xxxxxxxxx',
+    },
     isAdmin: {
       type: Boolean,
       default: false,
