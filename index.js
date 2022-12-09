@@ -44,7 +44,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 
 // 404 not found handler
-// app.use(notFoundHandler);
+app.use('*', notFoundHandler);
 
 // listening to the port
 app.listen(port, () => {
