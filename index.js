@@ -7,6 +7,7 @@ const cors = require('cors');
 const productRouter = require('./routes/productRouter');
 const blogRouter = require('./routes/blogRouter');
 const authRouter = require('./routes/authRouter');
+const userRouter = require('./routes/userRouter');
 const databaseConnect = require('./utilities/databaseConnect');
 const { notFoundHandler } = require('./middlewares/common/notFoundHandler');
 
@@ -40,6 +41,7 @@ app.get('/', (req, res) => {
 app.use('/api/product', productRouter);
 app.use('/api/blog', blogRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
 
 // 404 not found handler
 app.use(notFoundHandler);
