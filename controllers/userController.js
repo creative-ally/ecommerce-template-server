@@ -96,10 +96,38 @@ const getUser = async (req, res) => {
   }
 };
 
+// updating user info by id
+const updateUser = (req, res) => {
+  const id = req.params.id;
+  const updatedUserInfo = req.body;
+  const opts = { runValidators: true };
+  User.findByIdAndUpdate(
+    { _id: id },
+    {
+      $set: updatedUserInfo,
+    },
+    {
+      opts,
+    },
+    (err) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json({ error: 'There is a server side error!' });
+      } else {
+        res.status(200).json({
+          message: 'Product updated successfully!!',
+          data: updatedUserInfo,
+        });
+      }
+    }
+  ).clone();
+};
+
 // exporting modules
 module.exports = {
   getAllUsers,
   getAllAdmins,
   getAllGoogleUsers,
   getUser,
+  updateUser,
 };
