@@ -115,12 +115,27 @@ const updateUser = (req, res) => {
         res.status(500).json({ error: 'There is a server side error!' });
       } else {
         res.status(200).json({
-          message: 'Product updated successfully!!',
+          message: 'User updated successfully!!',
           data: updatedUserInfo,
         });
       }
     }
   ).clone();
+};
+
+// removing user info by id
+const removeUser = (req, res) => {
+  const id = req.params.id;
+  User.deleteOne({ _id: id }, (err) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({ error: 'There is a server side error!' });
+    } else {
+      res.status(200).json({
+        message: 'User was deleted successfully!!',
+      });
+    }
+  }).clone();
 };
 
 // exporting modules
@@ -130,4 +145,5 @@ module.exports = {
   getAllGoogleUsers,
   getUser,
   updateUser,
+  removeUser,
 };
