@@ -7,6 +7,7 @@ const {
   getAllAdmins,
   getAllGoogleUsers,
   getUser,
+  updateUser,
 } = require('../controllers/userController');
 
 // router setup
@@ -20,6 +21,6 @@ router.route('/admins').get(getAllAdmins);
 
 router.route('/google').get(getAllGoogleUsers);
 
-router.route('/information/:id').get(getUser);
+router.route('/information/:id').get(getUser).put(updateUser);
 
 module.exports = router;
