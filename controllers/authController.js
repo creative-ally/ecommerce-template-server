@@ -85,14 +85,7 @@ const signUp = async (req, res) => {
 // google auth
 const googleSignIn = async (req, res) => {
   const { username, email, image, isSignInWithGoogle } = req.body;
-  // const opts = { runValidators: true };
 
-  // const existingUser = {
-  //   username: username,
-  //   email: email,
-  //   image: image,
-  //   isSignInWithGoogle: isSignInWithGoogle,
-  // };
   try {
     const oldUser = await User.findOne({ email: email });
 
@@ -126,48 +119,6 @@ const googleSignIn = async (req, res) => {
     console.log(err);
     res.status(500).json({ message: 'There is a server side error' });
   }
-
-  // const oldUser = await User.findOne({ email: email });
-
-  // if (!oldUser) {
-  //   User.findOneAndUpdate(
-  //     // findOneAndUpdate is built-in keyword of mongoose which is used for finding and updating data from the database based on the condition
-  //     { email: email },
-  //     { $set: updatedUser },
-  //     {
-  //       upsert: true,
-  //       opts,
-  //     },
-  //     (err) => {
-  //       if (err) {
-  //         console.log(err);
-  //         res.status(500).json({ error: 'There is a server side error!' });
-  //       } else {
-  //         const token = jwt.sign(
-  //           { email: email },
-  //           process.env.ACCESS_TOKEN_SECRET,
-  //           {
-  //             expiresIn: '86400s',
-  //           }
-  //         );
-  //         res.status(200).json({
-  //           message: 'Google user added successfully!!',
-  //           data: updatedUser,
-  //           accessToken: token,
-  //         });
-  //       }
-  //     }
-  //   ).clone();
-  // } else {
-  //   const token = jwt.sign({ email: email }, process.env.ACCESS_TOKEN_SECRET, {
-  //     expiresIn: '86400s',
-  //   });
-  //   res.status(200).json({
-  //     message: 'Google user sign in successfull!!',
-  //     data: updatedUser,
-  //     accessToken: token,
-  //   });
-  // }
 };
 
 module.exports = {

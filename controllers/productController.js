@@ -73,76 +73,6 @@ const getAllProducts = (req, res) => {
     });
 };
 
-// // displaying office products
-// const getOfficeProducts = async (req, res) => {
-//   try {
-//     const officeProduct = new Product();
-//     const data = await officeProduct.findOfficeProduct();
-//     res.status(200).json({
-//       data,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ error: 'There is a server side error!' });
-//   }
-// };
-
-// // displaying door products
-// const getDoorProducts = async (req, res) => {
-//   try {
-//     const doorProduct = new Product();
-//     const data = await doorProduct.findDoorProduct();
-//     res.status(200).json({
-//       data,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ error: 'There is a server side error!' });
-//   }
-// };
-
-// // displaying interior products
-// const getInteriorProducts = async (req, res) => {
-//   try {
-//     const interiorProduct = new Product();
-//     const data = await interiorProduct.findInteriorProduct();
-//     res.status(200).json({
-//       data,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ error: 'There is a server side error!' });
-//   }
-// };
-
-// // displaying dining products
-// const getDiningProducts = async (req, res) => {
-//   try {
-//     const diningProduct = new Product();
-//     const data = await diningProduct.findDiningProduct();
-//     res.status(200).json({
-//       data,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ error: 'There is a server side error!' });
-//   }
-// };
-
-// // displaying bedroom products
-// const getBedroomProducts = async (req, res) => {
-//   try {
-//     const bedroomProduct = new Product();
-//     const data = await bedroomProduct.findBedroomProduct();
-//     res.status(200).json({
-//       data,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ error: 'There is a server side error!' });
-//   }
-// };
-
 // displaying products by category
 const getProductsByCategory = async (req, res) => {
   const category = req.params.category;
@@ -290,11 +220,6 @@ module.exports = {
   getProductsByCategory,
   getProductsByCode,
   getProductsBySearch,
-  // getOfficeProducts,
-  // getDoorProducts,
-  // getInteriorProducts,
-  // getDiningProducts,
-  // getBedroomProducts,
   getProduct,
   updateProduct,
   removeProduct,
