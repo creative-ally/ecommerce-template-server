@@ -1,7 +1,7 @@
-// external imports
+// external import
 const mongoose = require('mongoose');
 
-// internal imports
+// internal import
 const Product = require('../models/Product');
 
 // adding a single product
