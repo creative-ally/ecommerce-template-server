@@ -46,7 +46,7 @@ const orderSchema = mongoose.Schema(
       required: true,
     },
     status: {
-      type: Array,
+      type: String,
       enum: {
         values: ['Shipped', 'Pending', 'Received'],
         message: 'Status can not be ignored',

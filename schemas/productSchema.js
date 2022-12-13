@@ -58,10 +58,10 @@ const productSchema = mongoose.Schema(
       message: 'Quantity must be integer',
     },
     status: {
-      type: Array,
+      type: String,
       required: true,
       enum: {
-        values: ['in-stock', 'out-of-stock'],
+        values: ['In-stock', 'Out-of-stock'],
         message: 'Status can not be ignored',
       },
     },
