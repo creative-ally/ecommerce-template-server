@@ -4,6 +4,23 @@ const mongoose = require('mongoose');
 // internal import
 const Order = require('../models/Order');
 
+// displayng all Orders
+const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({}).select({
+      __v: 0,
+      createdAt: 0,
+      updatedAt: 0,
+    });
+    res.status(200).json({
+      message: 'All Orders showing!!',
+      data: orders,
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'There is a server side error' });
+  }
+};
+
 // display user Order
 const userOrder = async (req, res) => {
   const id = req.params.userId;
@@ -75,6 +92,7 @@ const removeOrder = async (req, res) => {
 };
 
 module.exports = {
+  getAllOrders,
   userOrder,
   addToOrder,
   updateOrder,
