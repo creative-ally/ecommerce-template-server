@@ -4,6 +4,23 @@ const mongoose = require('mongoose');
 // internal import
 const Cart = require('../models/Cart');
 
+// displayng all carts
+const getAllCarts = async (req, res) => {
+  try {
+    const carts = await Cart.find({}).select({
+      __v: 0,
+      createdAt: 0,
+      updatedAt: 0,
+    });
+    res.status(200).json({
+      message: 'All carts showing!!',
+      data: carts,
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'There is a server side error' });
+  }
+};
+
 // display user cart
 const userCart = async (req, res) => {
   const id = req.params.userId;
@@ -75,8 +92,9 @@ const removeCart = async (req, res) => {
 };
 
 module.exports = {
-  userCart,
   addToCart,
+  getAllCarts,
+  userCart,
   updateCart,
   removeCart,
 };
