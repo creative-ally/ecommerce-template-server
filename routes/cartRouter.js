@@ -7,6 +7,7 @@ const {
   updateCart,
   removeCart,
   userCart,
+  getAllCarts,
 } = require('../controllers/cartController');
 
 // router setup
@@ -14,7 +15,7 @@ const router = express.Router({
   caseSensitive: true,
 });
 
-router.route('/').post(addToCart);
+router.route('/').post(addToCart).get(getAllCarts);
 
 router.route('/user/:userId').get(userCart);
 
