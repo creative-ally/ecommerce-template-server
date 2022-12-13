@@ -28,13 +28,11 @@ const cartSchema = mongoose.Schema(
         },
         costPrice: {
           type: Number,
-          default: quantity * price,
         },
       },
     ],
     totalPrice: {
       type: Number,
-      default: products.costPrice,
     },
   },
   { timestamps: true }
