@@ -53,6 +53,10 @@ const orderSchema = mongoose.Schema(
       },
       default: 'Pending',
     },
+    transactionId: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
