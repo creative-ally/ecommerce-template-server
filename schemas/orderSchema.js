@@ -10,6 +10,12 @@ const orderSchema = mongoose.Schema(
         productId: {
           type: String,
         },
+        category: {
+          type: String,
+        },
+        subcategory: {
+          type: String,
+        },
         code: {
           type: String,
         },
@@ -26,15 +32,23 @@ const orderSchema = mongoose.Schema(
           type: Number,
           default: 1,
         },
+        costPrice: {
+          type: Number,
+        },
       },
     ],
-    totalCost: {
+    totalPrice: {
       type: Number,
       required: true,
     },
-    amount: { type: Number, required: true },
-    address: { type: Object, required: true },
-    status: { type: String, default: 'pending' },
+    address: {
+      type: Object,
+      required: true,
+    },
+    status: {
+      type: String,
+      default: 'Pending',
+    },
   },
   { timestamps: true }
 );
