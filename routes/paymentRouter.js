@@ -2,7 +2,10 @@
 const express = require('express');
 
 // internal imports
-const { payBill } = require('../controllers/paymentController');
+const {
+  payBill,
+  updateBillStatus,
+} = require('../controllers/paymentController');
 
 // router setup
 const router = express.Router({
@@ -10,5 +13,7 @@ const router = express.Router({
 });
 
 router.route('/').post(payBill);
+
+router.route('/check/:userId').put(updateBillStatus);
 
 module.exports = router;
