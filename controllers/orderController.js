@@ -45,7 +45,19 @@ const updateOrder = async (req, res) => {
   }
 };
 
+// delete Order
+const removeOrder = async (req, res) => {
+  const id = req.params.id;
+  try {
+    await Order.findByIdAndDelete({ _id: id });
+    res.status(200).json('Order has been deleted...');
+  } catch (err) {
+    res.status(500).json({ error: 'There is a server side error' });
+  }
+};
+
 module.exports = {
   addToOrder,
   updateOrder,
+  removeOrder,
 };
