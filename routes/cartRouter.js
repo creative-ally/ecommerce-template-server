@@ -2,7 +2,7 @@
 const express = require('express');
 
 // internal imports
-const { addToCart } = require('../controllers/cartController');
+const { addToCart, updateCart } = require('../controllers/cartController');
 
 // router setup
 const router = express.Router({
@@ -10,5 +10,7 @@ const router = express.Router({
 });
 
 router.route('/').post(addToCart);
+
+router.route('/item/:id').put(updateCart);
 
 module.exports = router;
