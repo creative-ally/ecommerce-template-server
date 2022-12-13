@@ -6,6 +6,7 @@ const {
   addToOrder,
   updateOrder,
   removeOrder,
+  userOrder,
 } = require('../controllers/orderController');
 
 // router setup
@@ -16,5 +17,7 @@ const router = express.Router({
 router.route('/').post(addToOrder);
 
 router.route('/:id').put(updateOrder).delete(removeOrder);
+
+router.route('/user/:userId').get(userOrder);
 
 module.exports = router;
