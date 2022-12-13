@@ -19,7 +19,7 @@ const addToCart = async (req, res) => {
   }
 };
 
-//update item in the cart
+// update item in the cart
 const updateCart = async (req, res) => {
   const id = req.params.id;
   const updatedCartItem = req.body;
@@ -45,7 +45,19 @@ const updateCart = async (req, res) => {
   }
 };
 
+// delete cart
+const removeCart = async (req, res) => {
+  const id = req.params.id;
+  try {
+    await Cart.findByIdAndDelete({ _id: id });
+    res.status(200).json('Cart has been deleted...');
+  } catch (err) {
+    res.status(500).json({ error: 'There is a server side error' });
+  }
+};
+
 module.exports = {
   addToCart,
   updateCart,
+  removeCart,
 };
