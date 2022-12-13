@@ -6,8 +6,12 @@ const cors = require('cors');
 // internal imports
 const productRouter = require('./routes/productRouter');
 const blogRouter = require('./routes/blogRouter');
+const authRouter = require('./routes/authRouter');
+const userRouter = require('./routes/userRouter');
+const cartRouter = require('./routes/cartRouter');
+const orderRouter = require('./routes/orderRouter');
+const paymentRouter = require('./routes/paymentRouter');
 const databaseConnect = require('./utilities/databaseConnect');
-const { errorHandler } = require('./middlewares/common/errorHandler');
 const { notFoundHandler } = require('./middlewares/common/notFoundHandler');
 
 // app initialization
@@ -28,10 +32,6 @@ app.use(express.json());
 // connecting to database
 databaseConnect();
 
-// setting-up application routes
-app.use('/api/product', productRouter);
-app.use('/api/blog', blogRouter);
-
 // displaying default response
 app.get('/', (req, res) => {
   res.send({
@@ -40,11 +40,17 @@ app.get('/', (req, res) => {
   });
 });
 
-// 404 not found handler
-app.use(notFoundHandler);
+// setting-up application routes
+app.use('/api/product', productRouter);
+app.use('/api/blog', blogRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
+app.use('/api/cart', cartRouter);
+app.use('/api/order', orderRouter);
+app.use('/api/pay', paymentRouter);
 
-// common error handler
-app.use(errorHandler);
+// 404 not found handler
+app.use('*', notFoundHandler);
 
 // listening to the port
 app.listen(port, () => {

@@ -9,11 +9,6 @@ const {
   getProductsByCategory,
   getProductsByCode,
   getProductsBySearch,
-  // getOfficeProducts,
-  // getDoorProducts,
-  // getInteriorProducts,
-  // getDiningProducts,
-  // getBedroomProducts,
   getProduct,
   updateProduct,
   removeProduct,
@@ -35,11 +30,5 @@ router.route('/category/:category/:code').get(getProductsByCode);
 router.route('/search/:search').get(getProductsBySearch);
 
 router.route('/:id').get(getProduct).put(updateProduct).delete(removeProduct);
-
-// .get('/office', getOfficeProducts)
-// .get('/door', getDoorProducts)
-// .get('/interior', getInteriorProducts)
-// .get('/dining', getDiningProducts)
-// .get('/bedroom', getBedroomProducts)
 
 module.exports = router;

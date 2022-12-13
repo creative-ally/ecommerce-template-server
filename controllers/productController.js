@@ -1,11 +1,11 @@
-// external imports
+// external import
 const mongoose = require('mongoose');
 
-// internal imports
+// internal import
 const Product = require('../models/Product');
 
 // adding a single product
-const addProduct = async (req, res, next) => {
+const addProduct = async (req, res) => {
   const newProduct = new Product({
     name: req.body.name,
     image: req.body.image,
@@ -34,7 +34,7 @@ const addProduct = async (req, res, next) => {
 };
 
 // adding multiple products
-const addProducts = (req, res, next) => {
+const addProducts = (req, res) => {
   const data = req.body;
   Product.insertMany(data, (err) => {
     //insertMany is built-in keyword of mongoose which is used for inserting many datas in the database
@@ -51,7 +51,7 @@ const addProducts = (req, res, next) => {
 };
 
 // displaying products
-const getAllProducts = (req, res, next) => {
+const getAllProducts = (req, res) => {
   Product.find({}) // find is built-in keyword of mongoose which is used for finding data from the database based on the condition
     .select({
       // select is built-in keyword of mongoose which is used for selcting which collection field to display or not
@@ -73,78 +73,8 @@ const getAllProducts = (req, res, next) => {
     });
 };
 
-// // displaying office products
-// const getOfficeProducts = async (req, res, next) => {
-//   try {
-//     const officeProduct = new Product();
-//     const data = await officeProduct.findOfficeProduct();
-//     res.status(200).json({
-//       data,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ error: 'There is a server side error!' });
-//   }
-// };
-
-// // displaying door products
-// const getDoorProducts = async (req, res, next) => {
-//   try {
-//     const doorProduct = new Product();
-//     const data = await doorProduct.findDoorProduct();
-//     res.status(200).json({
-//       data,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ error: 'There is a server side error!' });
-//   }
-// };
-
-// // displaying interior products
-// const getInteriorProducts = async (req, res, next) => {
-//   try {
-//     const interiorProduct = new Product();
-//     const data = await interiorProduct.findInteriorProduct();
-//     res.status(200).json({
-//       data,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ error: 'There is a server side error!' });
-//   }
-// };
-
-// // displaying dining products
-// const getDiningProducts = async (req, res, next) => {
-//   try {
-//     const diningProduct = new Product();
-//     const data = await diningProduct.findDiningProduct();
-//     res.status(200).json({
-//       data,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ error: 'There is a server side error!' });
-//   }
-// };
-
-// // displaying bedroom products
-// const getBedroomProducts = async (req, res, next) => {
-//   try {
-//     const bedroomProduct = new Product();
-//     const data = await bedroomProduct.findBedroomProduct();
-//     res.status(200).json({
-//       data,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ error: 'There is a server side error!' });
-//   }
-// };
-
 // displaying products by category
-const getProductsByCategory = async (req, res, next) => {
+const getProductsByCategory = async (req, res) => {
   const category = req.params.category;
   try {
     const data = await Product.find({ category: category }).select({
@@ -163,7 +93,7 @@ const getProductsByCategory = async (req, res, next) => {
 };
 
 // displaying products by subcategory
-const getProductsByCode = async (req, res, next) => {
+const getProductsByCode = async (req, res) => {
   const { category, code } = req.params;
   try {
     const data = await Product.find({
@@ -184,35 +114,39 @@ const getProductsByCode = async (req, res, next) => {
 };
 
 // displaying products by search
-const getProductsBySearch = async (req, res, next) => {
+const getProductsBySearch = async (req, res) => {
   const { search } = req.params;
   // console.log(search);
-  try {
-    const data = await Product.find({
-      $or: [
-        { name: { $regex: search, $options: 'i' } },
-        { category: { $regex: search, $options: 'i' } },
-        { code: { $regex: search, $options: 'i' } },
-      ],
-    })
-      .select({
-        __v: 0,
-        createdAt: 0,
-        updatedAt: 0,
+  if (search.length >= 3) {
+    try {
+      const data = await Product.find({
+        $or: [
+          { name: { $regex: search, $options: 'i' } },
+          { category: { $regex: search, $options: 'i' } },
+          { code: { $regex: search, $options: 'i' } },
+        ],
       })
-      .exec();
-    res.status(200).json({
-      message: 'SUCCESS!!',
-      data,
-    });
-  } catch (err) {
-    // console.log(err);
-    res.status(500).json({ error: 'There is a server side error!' });
+        .select({
+          __v: 0,
+          createdAt: 0,
+          updatedAt: 0,
+        })
+        .exec();
+      res.status(200).json({
+        message: 'SUCCESS!!',
+        data,
+      });
+    } catch (err) {
+      // console.log(err);
+      res.status(500).json({ error: 'There is a server side error!' });
+    }
+  } else {
+    res.status(401).json({ error: 'Something went wrong!' });
   }
 };
 
 // displaying a product by id
-const getProduct = async (req, res, next) => {
+const getProduct = async (req, res) => {
   const id = req.params.id;
   // console.log(id);
   if (mongoose.Types.ObjectId.isValid(id)) {
@@ -236,7 +170,7 @@ const getProduct = async (req, res, next) => {
 };
 
 // updating a product by id
-const updateProduct = (req, res, next) => {
+const updateProduct = (req, res) => {
   const id = req.params.id;
   const updatedProduct = req.body;
   const opts = { runValidators: true };
@@ -264,7 +198,7 @@ const updateProduct = (req, res, next) => {
 };
 
 // removing a product by id
-const removeProduct = (req, res, next) => {
+const removeProduct = (req, res) => {
   const id = req.params.id;
   Product.deleteOne({ _id: id }, (err) => {
     //deleteOne is built-in keyword of mongoose which is used for deleting data from the database based on the condition
@@ -286,11 +220,6 @@ module.exports = {
   getProductsByCategory,
   getProductsByCode,
   getProductsBySearch,
-  // getOfficeProducts,
-  // getDoorProducts,
-  // getInteriorProducts,
-  // getDiningProducts,
-  // getBedroomProducts,
   getProduct,
   updateProduct,
   removeProduct,
