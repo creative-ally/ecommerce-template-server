@@ -1,15 +1,20 @@
-// internal imports
+// external import
+const mongoose = require('mongoose');
+
+// internal import
 const Product = require('../models/Product');
 
 // adding a single product
-const addProduct = async (req, res, next) => {
+const addProduct = async (req, res) => {
   const newProduct = new Product({
     name: req.body.name,
-    subcategory: req.body.subcategory,
-    category: req.body.category,
     image: req.body.image,
+    category: req.body.category,
+    subcategory: req.body.subcategory,
     price: req.body.price,
     code: req.body.code,
+    quantity: req.body.quantity,
+    status: req.body.status,
     color: req.body.color,
     material: req.body.material,
     description: req.body.description,
@@ -29,7 +34,7 @@ const addProduct = async (req, res, next) => {
 };
 
 // adding multiple products
-const addProducts = (req, res, next) => {
+const addProducts = (req, res) => {
   const data = req.body;
   Product.insertMany(data, (err) => {
     //insertMany is built-in keyword of mongoose which is used for inserting many datas in the database
@@ -46,11 +51,11 @@ const addProducts = (req, res, next) => {
 };
 
 // displaying products
-const getAllProducts = (req, res, next) => {
+const getAllProducts = (req, res) => {
   Product.find({}) // find is built-in keyword of mongoose which is used for finding data from the database based on the condition
     .select({
       // select is built-in keyword of mongoose which is used for selcting which collection field to display or not
-      __v: 0, // 0 means no needs to show
+      __v: 0, // 0 means no needs to show and 1 means show. But, cannot use 1 or 0 together, either 0 or 1 should be used
       createdAt: 0,
       updatedAt: 0,
     })
@@ -68,114 +73,18 @@ const getAllProducts = (req, res, next) => {
     });
 };
 
-// displaying office products
-const getOfficeProducts = async (req, res, next) => {
-  try {
-    const officeProduct = new Product();
-    const data = await officeProduct.findOfficeProduct();
-    res.status(200).json({
-      data,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: 'There is a server side error!' });
-  }
-};
-
-// displaying door products
-const getDoorProducts = async (req, res, next) => {
-  try {
-    const doorProduct = new Product();
-    const data = await doorProduct.findDoorProduct();
-    res.status(200).json({
-      data,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: 'There is a server side error!' });
-  }
-};
-
-// displaying interior products
-const getInteriorProducts = async (req, res, next) => {
-  try {
-    const interiorProduct = new Product();
-    const data = await interiorProduct.findInteriorProduct();
-    res.status(200).json({
-      data,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: 'There is a server side error!' });
-  }
-};
-
-// displaying dining products
-const getDiningProducts = async (req, res, next) => {
-  try {
-    const diningProduct = new Product();
-    const data = await diningProduct.findDiningProduct();
-    res.status(200).json({
-      data,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: 'There is a server side error!' });
-  }
-};
-
-// displaying bedroom products
-const getBedroomProducts = async (req, res, next) => {
-  try {
-    const bedroomProduct = new Product();
-    const data = await bedroomProduct.findBedroomProduct();
-    res.status(200).json({
-      data,
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: 'There is a server side error!' });
-  }
-};
-
 // displaying products by category
-// const getProductsByCategory = async (req, res, next) => {
-//   try {
-//     const category = req.params.category;
-//     const products = await Product.find({ category: category });
-//     res.status(200).send({ success: 'success', data: products });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ error: 'There is a server side error!' });
-//   }
-// };
-
-// // displaying products by subcategory
-// const getProductsBySubcategory = async (req, res, next) => {
-//   try {
-//     const subcategory = req.params.subcategory;
-//     const products = await Product.find({
-//       subcategory: subcategory,
-//     });
-//     res.status(200).send({ success: 'success', data: products });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ error: 'There is a server side error!' });
-//   }
-// };
-
-// displaying a product by id
-const getProduct = async (req, res, next) => {
-  const id = req.params.id;
+const getProductsByCategory = async (req, res) => {
+  const category = req.params.category;
   try {
-    const data = await Product.find({ _id: id }).select({
+    const data = await Product.find({ category: category }).select({
       __v: 0,
       createdAt: 0,
       updatedAt: 0,
     });
     res.status(200).json({
-      data,
       message: 'SUCCESS!!',
+      data,
     });
   } catch (err) {
     // console.log(err);
@@ -183,17 +92,96 @@ const getProduct = async (req, res, next) => {
   }
 };
 
-// updating a product by id
-const updateProduct = (req, res, next) => {
+// displaying products by subcategory
+const getProductsByCode = async (req, res) => {
+  const { category, code } = req.params;
+  try {
+    const data = await Product.find({
+      $and: [{ category: { $eq: category } }, { code: { $eq: code } }],
+    }).select({
+      __v: 0,
+      createdAt: 0,
+      updatedAt: 0,
+    });
+    res.status(200).json({
+      message: 'SUCCESS!!',
+      data,
+    });
+  } catch (err) {
+    // console.log(err);
+    res.status(500).json({ error: 'There is a server side error!' });
+  }
+};
+
+// displaying products by search
+const getProductsBySearch = async (req, res) => {
+  const { search } = req.params;
+  // console.log(search);
+  if (search.length >= 3) {
+    try {
+      const data = await Product.find({
+        $or: [
+          { name: { $regex: search, $options: 'i' } },
+          { category: { $regex: search, $options: 'i' } },
+          { code: { $regex: search, $options: 'i' } },
+        ],
+      })
+        .select({
+          __v: 0,
+          createdAt: 0,
+          updatedAt: 0,
+        })
+        .exec();
+      res.status(200).json({
+        message: 'SUCCESS!!',
+        data,
+      });
+    } catch (err) {
+      // console.log(err);
+      res.status(500).json({ error: 'There is a server side error!' });
+    }
+  } else {
+    res.status(401).json({ error: 'Something went wrong!' });
+  }
+};
+
+// displaying a product by id
+const getProduct = async (req, res) => {
   const id = req.params.id;
+  // console.log(id);
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    try {
+      const data = await Product.find({ _id: id }).select({
+        __v: 0,
+        createdAt: 0,
+        updatedAt: 0,
+      });
+      res.status(200).json({
+        message: 'SUCCESS!!',
+        data,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: 'There is a server side error!' });
+    }
+  } else {
+    res.status(500).json({ error: 'There is a server side error!' });
+  }
+};
+
+// updating a product by id
+const updateProduct = (req, res) => {
+  const id = req.params.id;
+  const updatedProduct = req.body;
+  const opts = { runValidators: true };
   Product.findByIdAndUpdate(
     // findByIdAndUpdate is built-in keyword of mongoose which is used for finding and updating data from the database based on the condition
     { _id: id },
     {
-      $set: {
-        // just manually updating data
-        price: 25195,
-      },
+      $set: updatedProduct,
+    },
+    {
+      opts,
     },
     (err) => {
       if (err) {
@@ -202,6 +190,7 @@ const updateProduct = (req, res, next) => {
       } else {
         res.status(200).json({
           message: 'Product updated successfully!!',
+          data: updatedProduct,
         });
       }
     }
@@ -209,7 +198,7 @@ const updateProduct = (req, res, next) => {
 };
 
 // removing a product by id
-const removeProduct = (req, res, next) => {
+const removeProduct = (req, res) => {
   const id = req.params.id;
   Product.deleteOne({ _id: id }, (err) => {
     //deleteOne is built-in keyword of mongoose which is used for deleting data from the database based on the condition
@@ -228,13 +217,9 @@ module.exports = {
   addProduct,
   addProducts,
   getAllProducts,
-  // getProductsByCategory,
-  // getProductsBySubcategory,
-  getOfficeProducts,
-  getDoorProducts,
-  getInteriorProducts,
-  getDiningProducts,
-  getBedroomProducts,
+  getProductsByCategory,
+  getProductsByCode,
+  getProductsBySearch,
   getProduct,
   updateProduct,
   removeProduct,

@@ -6,34 +6,29 @@ const {
   addProduct,
   addProducts,
   getAllProducts,
-  // getProductsByCategory,
-  // getProductsBySubcategory,
-  getOfficeProducts,
-  getDoorProducts,
-  getInteriorProducts,
-  getDiningProducts,
-  getBedroomProducts,
+  getProductsByCategory,
+  getProductsByCode,
+  getProductsBySearch,
   getProduct,
   updateProduct,
   removeProduct,
 } = require('../controllers/productController');
 
 // router setup
-const router = express.Router();
+const router = express.Router({
+  caseSensitive: true,
+});
 
-router
-  .post('/', addProduct)
-  .post('/all', addProducts)
-  .get('/', getAllProducts)
-  // .get('/:category', getProductsByCategory)
-  // .get('/category/:subcategory', getProductsBySubcategory)
-  .get('/office', getOfficeProducts)
-  .get('/door', getDoorProducts)
-  .get('/interior', getInteriorProducts)
-  .get('/dining', getDiningProducts)
-  .get('/bedroom', getBedroomProducts)
-  .get('/:id', getProduct)
-  .put('/:id', updateProduct)
-  .delete('/:id', removeProduct);
+router.route('/').post(addProduct).get(getAllProducts);
+
+router.route('/all').post(addProducts);
+
+router.route('/category/:category').get(getProductsByCategory);
+
+router.route('/category/:category/:code').get(getProductsByCode);
+
+router.route('/search/:search').get(getProductsBySearch);
+
+router.route('/:id').get(getProduct).put(updateProduct).delete(removeProduct);
 
 module.exports = router;

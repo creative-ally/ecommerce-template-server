@@ -2,10 +2,14 @@
 
 http://localhost:5000/api/product => post, get 
 http://localhost:5000/api/product/:id => get, put, delete
-http://localhost:5000/api/product/category_name => get
+http://localhost:5000/api/product/category/:category_name => get category
+http://localhost:5000/api/product/category/:category_name/:code => get subcategory
 
 category= Office, Door, Dining, Interior, Bedroom 
 
 * For blog api 
 http://localhost:5000/api/blog => post, get 
-http://localhost:5000/api/blog/:id => get, put, delete
+http://localhost:5000/api/blog/:id => get, put, delete 
+
+* cross-env 
+cross-env makes it so you can have a single command without worrying about setting or using the environment variable properly for the platform.
