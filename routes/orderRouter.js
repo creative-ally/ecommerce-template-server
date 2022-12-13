@@ -2,7 +2,7 @@
 const express = require('express');
 
 // internal imports
-const { addToOrder } = require('../controllers/orderController');
+const { addToOrder, updateOrder } = require('../controllers/orderController');
 
 // router setup
 const router = express.Router({
@@ -11,4 +11,5 @@ const router = express.Router({
 
 router.route('/').post(addToOrder);
 
+router.route('/:id').put(updateOrder);
 module.exports = router;
