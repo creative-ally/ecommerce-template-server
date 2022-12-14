@@ -9,16 +9,23 @@ const {
   userOrder,
   getAllOrders,
 } = require('../controllers/orderController');
+const { verifyAdmin, verifyToken } = require('../middlewares/auth/authHandler');
 
 // router setup
 const router = express.Router({
   caseSensitive: true,
 });
 
-router.route('/').post(addToOrder).get(getAllOrders);
+router
+  .route('/')
+  .post(verifyToken, addToOrder)
+  .get(verifyToken, verifyAdmin, getAllOrders);
 
-router.route('/:id').put(updateOrder).delete(removeOrder);
+router
+  .route('/:id')
+  .put(verifyToken, updateOrder)
+  .delete(verifyToken, removeOrder);
 
-router.route('/user/:userId').get(userOrder);
+router.route('/user/:userId').get(verifyToken, userOrder);
 
 module.exports = router;

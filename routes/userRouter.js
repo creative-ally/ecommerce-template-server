@@ -10,22 +10,23 @@ const {
   updateUser,
   removeUser,
 } = require('../controllers/userController');
+const { verifyAdmin, verifyToken } = require('../middlewares/auth/authHandler');
 
 // router setup
 const router = express.Router({
   caseSensitive: true,
 });
 
-router.route('/').get(getAllUsers);
+router.route('/').get(verifyToken, verifyAdmin, getAllUsers);
 
-router.route('/admins').get(getAllAdmins);
+router.route('/admins').get(verifyToken, verifyAdmin, getAllAdmins);
 
-router.route('/google').get(getAllGoogleUsers);
+router.route('/google').get(verifyToken, verifyAdmin, getAllGoogleUsers);
 
 router
   .route('/information/:id')
-  .get(getUser)
-  .put(updateUser)
-  .delete(removeUser);
+  .get(verifyToken, getUser)
+  .put(verifyToken, updateUser)
+  .delete(verifyToken, verifyAdmin, removeUser);
 
 module.exports = router;
