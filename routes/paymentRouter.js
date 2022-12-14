@@ -5,6 +5,7 @@ const express = require('express');
 const {
   payBill,
   updateBillStatus,
+  getAllTransactionDetails,
 } = require('../controllers/paymentController');
 const { verifyToken, verifyAdmin } = require('../middlewares/auth/authHandler');
 
@@ -13,7 +14,10 @@ const router = express.Router({
   caseSensitive: true,
 });
 
-router.route('/').post(verifyToken, payBill);
+router
+  .route('/')
+  .post(verifyToken, payBill)
+  .get(verifyToken, verifyAdmin, getAllTransactionDetails);
 
 router.route('/check/:userId').put(verifyToken, updateBillStatus);
 
