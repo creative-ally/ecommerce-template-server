@@ -4,6 +4,23 @@ const Payment = require('../models/Payment');
 const KEY = process.env.STRIPE_KEY;
 const stripe = require('stripe')(KEY);
 
+// displayng all transactions
+const getAllTransactionDetails = async (req, res) => {
+  try {
+    const transactionDetails = await Payment.find({}).select({
+      __v: 0,
+      createdAt: 0,
+      updatedAt: 0,
+    });
+    res.status(200).json({
+      message: 'All transaction details are showing!!',
+      data: transactionDetails,
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'There is a server side error' });
+  }
+};
+
 const payBill = async (req, res) => {
   const order = req.body;
   const price = order?.price;
@@ -48,6 +65,7 @@ const updateBillStatus = async (req, res) => {
 };
 
 module.exports = {
+  getAllTransactionDetails,
   payBill,
   updateBillStatus,
 };
