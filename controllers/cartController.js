@@ -1,7 +1,7 @@
-// external import
+// external imports
 const mongoose = require('mongoose');
 
-// internal import
+// internal imports
 const Cart = require('../models/Cart');
 
 // displayng all carts
@@ -17,7 +17,11 @@ const getAllCarts = async (req, res) => {
       data: carts,
     });
   } catch (err) {
-    res.status(500).json({ error: 'There is a server side error' });
+    // console.log(err)
+    res.status(500).json({
+      message: 'There is a server side error',
+      // error: err
+    });
   }
 };
 
@@ -35,7 +39,11 @@ const userCart = async (req, res) => {
       data: cart,
     });
   } catch (err) {
-    res.status(500).json({ error: 'There is a server side error' });
+    // console.log(err)
+    res.status(500).json({
+      message: 'There is a server side error',
+      // error: err
+    });
   }
 };
 
@@ -50,7 +58,11 @@ const addToCart = async (req, res) => {
       data: savedCart,
     });
   } catch (err) {
-    res.status(500).json({ error: 'There is a server side error' });
+    // console.log(err);
+    res.status(500).json({
+      message: 'There is a server side error',
+      // error: err
+    });
   }
 };
 
@@ -60,37 +72,54 @@ const updateCart = async (req, res) => {
   const updatedCartItem = req.body;
   const opts = { runValidators: true };
 
-  try {
-    await Cart.findByIdAndUpdate(
-      { _id: id },
-      {
-        $set: updatedCartItem,
-      },
-      {
-        new: true,
-        opts,
-      }
-    );
-    res.status(200).json({
-      message: 'Cart item updated successfully',
-      data: updatedCartItem,
-    });
-  } catch (err) {
-    res.status(500).json({ error: 'There is a server side error' });
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    try {
+      await Cart.findByIdAndUpdate(
+        { _id: id },
+        {
+          $set: updatedCartItem,
+        },
+        {
+          new: true,
+          opts,
+        }
+      );
+      res.status(200).json({
+        message: 'Cart item updated successfully',
+        data: updatedCartItem,
+      });
+    } catch (err) {
+      // console.log(err)
+      res.status(500).json({
+        message: 'There is a server side error',
+        // error: err
+      });
+    }
+  } else {
+    res.status(500).json({ message: 'There is a server side error!' });
   }
 };
 
 // delete cart
 const removeCart = async (req, res) => {
   const id = req.params.id;
-  try {
-    await Cart.findByIdAndDelete({ _id: id });
-    res.status(200).json('Cart has been deleted...');
-  } catch (err) {
-    res.status(500).json({ error: 'There is a server side error' });
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    try {
+      await Cart.findByIdAndDelete({ _id: id });
+      res.status(200).json('Cart has been deleted...');
+    } catch (err) {
+      // console.log(err)
+      res.status(500).json({
+        message: 'There is a server side error',
+        // error: err
+      });
+    }
+  } else {
+    res.status(500).json({ message: 'There is a server side error!' });
   }
 };
 
+// exporting modules
 module.exports = {
   addToCart,
   getAllCarts,

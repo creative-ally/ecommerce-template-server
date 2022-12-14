@@ -1,4 +1,4 @@
-// dependencies
+// external imports
 const mongoose = require('mongoose');
 
 // creating schema for users
@@ -42,4 +42,5 @@ const userSchema = mongoose.Schema(
   { timestamps: true }
 );
 
+// exporting module
 module.exports = userSchema;

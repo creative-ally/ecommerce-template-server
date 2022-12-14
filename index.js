@@ -29,7 +29,7 @@ app.use(cors(corsConfig));
 app.options('*', cors(corsConfig));
 app.use(express.json());
 
-// connecting to database
+// database connect
 databaseConnect();
 
 // displaying default response
