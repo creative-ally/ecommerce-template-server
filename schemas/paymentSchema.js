@@ -1,4 +1,4 @@
-// dependencies
+// external imports
 const mongoose = require('mongoose');
 
 // creating schema for payments
@@ -26,4 +26,5 @@ const paymentSchema = mongoose.Schema(
   }
 );
 
+// exporting module
 module.exports = paymentSchema;

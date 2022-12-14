@@ -1,4 +1,4 @@
-// dependencies
+// external imports
 const mongoose = require('mongoose');
 
 // creating schema for order
@@ -61,4 +61,5 @@ const orderSchema = mongoose.Schema(
   { timestamps: true }
 );
 
+// exporting module
 module.exports = orderSchema;

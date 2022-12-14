@@ -1,7 +1,7 @@
-// external import
+// external imports
 const mongoose = require('mongoose');
 
-// internal import
+// internal imports
 const User = require('../models/User');
 
 // displaying users
@@ -16,7 +16,10 @@ const getAllUsers = (req, res) => {
       // here is all execution is happening
       if (err) {
         // console.log(err);
-        res.status(500).json({ error: 'There is a server side error!' });
+        res.status(500).json({
+          message: 'There is a server side error!',
+          // error: err
+        });
       } else {
         res.status(200).json({
           message: 'All users are shown here successfully!!',
@@ -38,7 +41,10 @@ const getAllAdmins = (req, res) => {
       // here is all execution is happening
       if (err) {
         // console.log(err);
-        res.status(500).json({ error: 'There is a server side error!' });
+        res.status(500).json({
+          message: 'There is a server side error!',
+          // error: err
+        });
       } else {
         res.status(200).json({
           message: 'All admins are shown here successfully!!',
@@ -62,7 +68,10 @@ const getAllGoogleUsers = (req, res) => {
       // here is all execution is happening
       if (err) {
         // console.log(err);
-        res.status(500).json({ error: 'There is a server side error!' });
+        res.status(500).json({
+          message: 'There is a server side error!',
+          // error: err
+        });
       } else {
         res.status(200).json({
           message: 'All google users are shown here successfully!!',
@@ -75,7 +84,6 @@ const getAllGoogleUsers = (req, res) => {
 // displaying a user by id
 const getUser = async (req, res) => {
   const id = req.params.id;
-  // console.log(id);
   if (mongoose.Types.ObjectId.isValid(id)) {
     try {
       const data = await User.find({ _id: id }).select({
@@ -89,10 +97,13 @@ const getUser = async (req, res) => {
       });
     } catch (err) {
       console.log(err);
-      res.status(500).json({ error: 'There is a server side error!' });
+      res.status(500).json({
+        message: 'There is a server side error!',
+        // error: err
+      });
     }
   } else {
-    res.status(500).json({ error: 'There is a server side error!' });
+    res.status(500).json({ message: 'There is a server side error!' });
   }
 };
 
@@ -101,41 +112,55 @@ const updateUser = (req, res) => {
   const id = req.params.id;
   const updatedUserInfo = req.body;
   const opts = { runValidators: true };
-  User.findByIdAndUpdate(
-    { _id: id },
-    {
-      $set: updatedUserInfo,
-    },
-    {
-      opts,
-    },
-    (err) => {
-      if (err) {
-        console.log(err);
-        res.status(500).json({ error: 'There is a server side error!' });
-      } else {
-        res.status(200).json({
-          message: 'User updated successfully!!',
-          data: updatedUserInfo,
-        });
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    User.findByIdAndUpdate(
+      { _id: id },
+      {
+        $set: updatedUserInfo,
+      },
+      {
+        opts,
+      },
+      (err) => {
+        if (err) {
+          console.log(err);
+          res.status(500).json({
+            message: 'There is a server side error!',
+            // error: err
+          });
+        } else {
+          res.status(200).json({
+            message: 'User updated successfully!!',
+            data: updatedUserInfo,
+          });
+        }
       }
-    }
-  ).clone();
+    ).clone();
+  } else {
+    res.status(500).json({ message: 'There is a server side error!' });
+  }
 };
 
 // removing user info by id
 const removeUser = (req, res) => {
   const id = req.params.id;
-  User.deleteOne({ _id: id }, (err) => {
-    if (err) {
-      console.log(err);
-      res.status(500).json({ error: 'There is a server side error!' });
-    } else {
-      res.status(200).json({
-        message: 'User was deleted successfully!!',
-      });
-    }
-  }).clone();
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    User.deleteOne({ _id: id }, (err) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json({
+          message: 'There is a server side error!',
+          // error: err
+        });
+      } else {
+        res.status(200).json({
+          message: 'User was deleted successfully!!',
+        });
+      }
+    }).clone();
+  } else {
+    res.status(500).json({ message: 'There is a server side error!' });
+  }
 };
 
 // exporting modules

@@ -1,7 +1,7 @@
-// external import
+// external imports
 const express = require('express');
 
-// internal import
+// internal imports
 const {
   signIn,
   signUp,
@@ -19,4 +19,5 @@ router.route('/sign-up').post(signUp);
 
 router.route('/google/sign-in').post(googleSignIn);
 
+// module exports
 module.exports = router;
