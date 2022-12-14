@@ -9,7 +9,7 @@ const {
   userCart,
   getAllCarts,
 } = require('../controllers/cartController');
-const { verifyAdmin, verifyToken } = require('../middlewares/auth/authHandler');
+const { verifyToken, verifyAdmin } = require('../middlewares/auth/authHandler');
 
 // router setup
 const router = express.Router({
@@ -28,4 +28,5 @@ router
   .put(verifyToken, updateCart)
   .delete(verifyToken, removeCart);
 
+// exporting module
 module.exports = router;

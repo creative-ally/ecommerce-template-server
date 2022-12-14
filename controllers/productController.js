@@ -1,7 +1,7 @@
-// external import
+// external imports
 const mongoose = require('mongoose');
 
-// internal import
+// internal imports
 const Product = require('../models/Product');
 
 // adding a single product
@@ -28,8 +28,11 @@ const addProduct = async (req, res) => {
       data: savedProduct,
     });
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: 'There is a server side error!' }); // 500 => server error, 400 => bad request, 404 => not found,  401 => authetication error, 403 => forbidden error
+    // console.log(err);
+    res.status(500).json({
+      message: 'There is a server side error!',
+      // error: err
+    }); // 500 => server error, 400 => bad request, 404 => not found,  401 => authetication error, 403 => forbidden error
   }
 };
 
@@ -39,8 +42,11 @@ const addProducts = (req, res) => {
   Product.insertMany(data, (err) => {
     //insertMany is built-in keyword of mongoose which is used for inserting many datas in the database
     if (err) {
-      console.log(err);
-      res.status(500).json({ error: 'There is a server side error!' });
+      // console.log(err);
+      res.status(500).json({
+        message: 'There is a server side error!',
+        // error: err
+      });
     } else {
       res.status(200).json({
         message: 'Products added successfully!!',
@@ -63,7 +69,10 @@ const getAllProducts = (req, res) => {
       // here is all execution is happening
       if (err) {
         // console.log(err);
-        res.status(500).json({ error: 'There is a server side error!' });
+        res.status(500).json({
+          message: 'There is a server side error!',
+          // error: err
+        });
       } else {
         res.status(200).json({
           data,
@@ -88,7 +97,10 @@ const getProductsByCategory = async (req, res) => {
     });
   } catch (err) {
     // console.log(err);
-    res.status(500).json({ error: 'There is a server side error!' });
+    res.status(500).json({
+      message: 'There is a server side error!',
+      // error: err
+    });
   }
 };
 
@@ -109,7 +121,10 @@ const getProductsByCode = async (req, res) => {
     });
   } catch (err) {
     // console.log(err);
-    res.status(500).json({ error: 'There is a server side error!' });
+    res.status(500).json({
+      message: 'There is a server side error!',
+      // error: err
+    });
   }
 };
 
@@ -138,17 +153,19 @@ const getProductsBySearch = async (req, res) => {
       });
     } catch (err) {
       // console.log(err);
-      res.status(500).json({ error: 'There is a server side error!' });
+      res.status(500).json({
+        message: 'There is a server side error!',
+        // error: err
+      });
     }
   } else {
-    res.status(401).json({ error: 'Something went wrong!' });
+    res.status(401).json({ message: 'Something went wrong!' });
   }
 };
 
 // displaying a product by id
 const getProduct = async (req, res) => {
   const id = req.params.id;
-  // console.log(id);
   if (mongoose.Types.ObjectId.isValid(id)) {
     try {
       const data = await Product.find({ _id: id }).select({
@@ -161,11 +178,14 @@ const getProduct = async (req, res) => {
         data,
       });
     } catch (err) {
-      console.log(err);
-      res.status(500).json({ error: 'There is a server side error!' });
+      // console.log(err);
+      res.status(500).json({
+        message: 'There is a server side error!',
+        // error: err
+      });
     }
   } else {
-    res.status(500).json({ error: 'There is a server side error!' });
+    res.status(500).json({ message: 'There is a server side error!' });
   }
 };
 
@@ -174,45 +194,60 @@ const updateProduct = (req, res) => {
   const id = req.params.id;
   const updatedProduct = req.body;
   const opts = { runValidators: true };
-  Product.findByIdAndUpdate(
-    // findByIdAndUpdate is built-in keyword of mongoose which is used for finding and updating data from the database based on the condition
-    { _id: id },
-    {
-      $set: updatedProduct,
-    },
-    {
-      opts,
-    },
-    (err) => {
-      if (err) {
-        console.log(err);
-        res.status(500).json({ error: 'There is a server side error!' });
-      } else {
-        res.status(200).json({
-          message: 'Product updated successfully!!',
-          data: updatedProduct,
-        });
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    Product.findByIdAndUpdate(
+      // findByIdAndUpdate is built-in keyword of mongoose which is used for finding and updating data from the database based on the condition
+      { _id: id },
+      {
+        $set: updatedProduct,
+      },
+      {
+        opts,
+      },
+      (err) => {
+        if (err) {
+          // console.log(err);
+          res.status(500).json({
+            message: 'There is a server side error!',
+            // error: err
+          });
+        } else {
+          res.status(200).json({
+            message: 'Product updated successfully!!',
+            data: updatedProduct,
+          });
+        }
       }
-    }
-  ).clone(); // forces mongoose to complete its execution
+    ).clone(); // forces mongoose to complete its execution
+  } else {
+    res.status(500).json({ message: 'There is a server side error!' });
+  }
 };
 
 // removing a product by id
 const removeProduct = (req, res) => {
   const id = req.params.id;
-  Product.deleteOne({ _id: id }, (err) => {
-    //deleteOne is built-in keyword of mongoose which is used for deleting data from the database based on the condition
-    if (err) {
-      console.log(err);
-      res.status(500).json({ error: 'There is a server side error!' });
-    } else {
-      res.status(200).json({
-        message: 'Product was deleted successfully!!',
-      });
-    }
-  }).clone();
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    Product.deleteOne({ _id: id }, (err) => {
+      //deleteOne is built-in keyword of mongoose which is used for deleting data from the database based on the condition
+      if (err) {
+        // console.log(err);
+        res.status(500).json({
+          message: 'There is a server side error!',
+          // error: err
+        });
+      } else {
+        res.status(200).json({
+          message: 'Product was deleted successfully!!',
+        });
+      }
+    }).clone();
+  } else {
+    res.status(500).json({ message: 'There is a server side error!' });
+  }
 };
 
+// exporting modules
 module.exports = {
   addProduct,
   addProducts,

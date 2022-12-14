@@ -1,7 +1,7 @@
-// external import
+// external imports
 const express = require('express');
 
-// internal import
+// internal imports
 const {
   getAllUsers,
   getAllAdmins,
@@ -10,7 +10,7 @@ const {
   updateUser,
   removeUser,
 } = require('../controllers/userController');
-const { verifyAdmin, verifyToken } = require('../middlewares/auth/authHandler');
+const { verifyToken, verifyAdmin } = require('../middlewares/auth/authHandler');
 
 // router setup
 const router = express.Router({
@@ -29,4 +29,5 @@ router
   .put(verifyToken, updateUser)
   .delete(verifyToken, verifyAdmin, removeUser);
 
+// exporting module
 module.exports = router;

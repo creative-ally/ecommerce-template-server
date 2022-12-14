@@ -27,4 +27,5 @@ router
   .put(verifyToken, verifyAdmin, updateBlog)
   .delete(verifyToken, verifyAdmin, removeBlog);
 
+// exporting module
 module.exports = router;

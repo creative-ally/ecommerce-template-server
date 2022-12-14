@@ -13,7 +13,7 @@ const {
   updateProduct,
   removeProduct,
 } = require('../controllers/productController');
-const { verifyAdmin, verifyToken } = require('../middlewares/auth/authHandler');
+const { verifyToken, verifyAdmin } = require('../middlewares/auth/authHandler');
 
 // router setup
 const router = express.Router({
@@ -39,4 +39,5 @@ router
   .put(verifyToken, verifyAdmin, updateProduct)
   .delete(verifyToken, verifyAdmin, removeProduct);
 
+// exporting module
 module.exports = router;

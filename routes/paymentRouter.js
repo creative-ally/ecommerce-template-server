@@ -21,4 +21,5 @@ router
 
 router.route('/check/:userId').put(verifyToken, updateBillStatus);
 
+// exporting module
 module.exports = router;

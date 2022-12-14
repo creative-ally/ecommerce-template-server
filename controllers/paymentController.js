@@ -1,8 +1,9 @@
+// external imports
+const stripe = require('stripe')(process.env.STRIPE_KEY);
+
+// internal imports
 const Order = require('../models/Order');
 const Payment = require('../models/Payment');
-
-const KEY = process.env.STRIPE_KEY;
-const stripe = require('stripe')(KEY);
 
 // displayng all transactions
 const getAllTransactionDetails = async (req, res) => {
@@ -17,21 +18,39 @@ const getAllTransactionDetails = async (req, res) => {
       data: transactionDetails,
     });
   } catch (err) {
-    res.status(500).json({ error: 'There is a server side error' });
+    // console.log(err);
+    res.status(500).json({
+      message: 'There is a server side error',
+      // error: err
+    });
   }
 };
 
+// paying for orders
 const payBill = async (req, res) => {
   const order = req.body;
-  const price = order?.price;
+  const price = order.price;
   const amount = price * 0.01;
-  // Create a PaymentIntent with the order amount and currency
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: amount,
-    currency: 'usd',
-    payment_method_types: ['card'],
-  });
-  res.send({ clientSecret: paymentIntent.client_secret });
+  try {
+    // Create a PaymentIntent with the order amount and currency
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amount,
+      currency: 'usd',
+      payment_method_types: ['card'],
+    });
+    res
+      .status(200)
+      .json({
+        message: 'Payment successful!',
+        clientSecret: paymentIntent.client_secret,
+      });
+  } catch (err) {
+    // console.log(err);
+    res.status(500).json({
+      message: 'There is a server side error',
+      // error: err
+    });
+  }
 };
 
 const updateBillStatus = async (req, res) => {
@@ -44,7 +63,7 @@ const updateBillStatus = async (req, res) => {
       {
         $set: {
           ...userOrderInfo,
-          transactionId: paymentDetail?.payments[0]?.transactionId,
+          transactionId: paymentDetail.payments[0].transactionId,
         },
       },
       {
@@ -60,7 +79,11 @@ const updateBillStatus = async (req, res) => {
       result: savedPayment,
     });
   } catch (err) {
-    res.status(500).json({ message: 'There is a server side error' });
+    // console.log(err)
+    res.status(500).json({
+      message: 'There is a server side error',
+      // error: err
+    });
   }
 };
 

@@ -1,7 +1,7 @@
-// external import
+// external imports
 const mongoose = require('mongoose');
 
-// internal import
+// internal imports
 const Order = require('../models/Order');
 
 // displayng all Orders
@@ -17,7 +17,11 @@ const getAllOrders = async (req, res) => {
       data: orders,
     });
   } catch (err) {
-    res.status(500).json({ error: 'There is a server side error' });
+    // console.log(err)
+    res.status(500).json({
+      message: 'There is a server side error',
+      // error: err
+    });
   }
 };
 
@@ -35,7 +39,11 @@ const userOrder = async (req, res) => {
       data: order,
     });
   } catch (err) {
-    res.status(500).json({ error: 'There is a server side error' });
+    console.log(err);
+    res.status(500).json({
+      message: 'There is a server side error',
+      // error: err
+    });
   }
 };
 
@@ -50,7 +58,11 @@ const addToOrder = async (req, res) => {
       data: savedOrder,
     });
   } catch (err) {
-    res.status(500).json({ error: 'There is a server side error' });
+    // console.log(err)
+    res.status(500).json({
+      message: 'There is a server side error',
+      // error: err
+    });
   }
 };
 
@@ -60,37 +72,54 @@ const updateOrder = async (req, res) => {
   const updatedOrderItem = req.body;
   const opts = { runValidators: true };
 
-  try {
-    await Order.findByIdAndUpdate(
-      { _id: id },
-      {
-        $set: updatedOrderItem,
-      },
-      {
-        new: true,
-        opts,
-      }
-    );
-    res.status(200).json({
-      message: 'Order item updated successfully',
-      data: updatedOrderItem,
-    });
-  } catch (err) {
-    res.status(500).json({ error: 'There is a server side error' });
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    try {
+      await Order.findByIdAndUpdate(
+        { _id: id },
+        {
+          $set: updatedOrderItem,
+        },
+        {
+          new: true,
+          opts,
+        }
+      );
+      res.status(200).json({
+        message: 'Order item updated successfully',
+        data: updatedOrderItem,
+      });
+    } catch (err) {
+      // console.log(err)
+      res.status(500).json({
+        message: 'There is a server side error',
+        // error: err
+      });
+    }
+  } else {
+    res.status(500).json({ message: 'There is a server side error!' });
   }
 };
 
 // delete Order
 const removeOrder = async (req, res) => {
   const id = req.params.id;
-  try {
-    await Order.findByIdAndDelete({ _id: id });
-    res.status(200).json('Order has been deleted...');
-  } catch (err) {
-    res.status(500).json({ error: 'There is a server side error' });
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    try {
+      await Order.findByIdAndDelete({ _id: id });
+      res.status(200).json('Order has been deleted...');
+    } catch (err) {
+      //  console.log(err);
+      res.status(500).json({
+        message: 'There is a server side error',
+        // error: err
+      });
+    }
+  } else {
+    res.status(500).json({ message: 'There is a server side error!' });
   }
 };
 
+// exporting modules
 module.exports = {
   getAllOrders,
   userOrder,

@@ -9,7 +9,7 @@ const {
   userOrder,
   getAllOrders,
 } = require('../controllers/orderController');
-const { verifyAdmin, verifyToken } = require('../middlewares/auth/authHandler');
+const { verifyToken, verifyAdmin } = require('../middlewares/auth/authHandler');
 
 // router setup
 const router = express.Router({
@@ -28,4 +28,5 @@ router
 
 router.route('/user/:userId').get(verifyToken, userOrder);
 
+// exporting module
 module.exports = router;

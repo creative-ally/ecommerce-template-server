@@ -1,8 +1,8 @@
-// external import
+// external imports
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// internal import
+// internal imports
 const User = require('../models/User');
 
 // sign-in with email
@@ -38,8 +38,11 @@ const signIn = async (req, res) => {
       });
     }
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: 'There is a server side error' });
+    // console.log(err);
+    res.status(500).json({
+      message: 'There is a server side error',
+      // error: err
+    });
   }
 };
 
@@ -77,12 +80,15 @@ const signUp = async (req, res) => {
       return res.status(400).json({ message: 'User already exists' });
     }
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: 'There is a server side error' });
+    // console.log(err);
+    res.status(500).json({
+      message: 'There is a server side error',
+      // error: err
+    });
   }
 };
 
-// google auth
+// signing in with google
 const googleSignIn = async (req, res) => {
   const { username, email, image, isSignInWithGoogle } = req.body;
 
@@ -116,11 +122,15 @@ const googleSignIn = async (req, res) => {
       });
     }
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: 'There is a server side error' });
+    // console.log(err);
+    res.status(500).json({
+      message: 'There is a server side error',
+      // error: err
+    });
   }
 };
 
+// exporting modules
 module.exports = {
   signIn,
   signUp,

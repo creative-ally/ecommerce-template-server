@@ -1,4 +1,4 @@
-// dependencies
+// external imports
 const mongoose = require('mongoose');
 
 // creating schema for products
@@ -27,4 +27,5 @@ const blogSchema = mongoose.Schema(
   }
 );
 
+// exporting module
 module.exports = blogSchema;
