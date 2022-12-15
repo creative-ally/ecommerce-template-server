@@ -1,21 +1,32 @@
+// external imports
 const express = require('express');
 
+// internal imports
 const {
-    addCart,
-    getAllCartItems,
-    removeCartItem,
-    getCartItem,
-    getCartItems
+  addToCart,
+  updateCart,
+  removeCart,
+  userCart,
+  getAllCarts,
 } = require('../controllers/cartController');
+const { verifyToken, verifyAdmin } = require('../middlewares/auth/authHandler');
 
+// router setup
 const router = express.Router({
-    caseSensitive: true,
+  caseSensitive: true,
 });
 
-router.route('/').post(addCart).get(getAllCartItems);
+router
+  .route('/')
+  .post(verifyToken, addToCart)
+  .get(verifyToken, verifyAdmin, getAllCarts);
 
-router.route('/:email').get(getCartItems);
+router.route('/user/:userId').get(verifyToken, userCart);
 
-router.route('/:id').get(getCartItem).delete(removeCartItem);
+router
+  .route('/item/:id')
+  .put(verifyToken, updateCart)
+  .delete(verifyToken, removeCart);
 
+// exporting module
 module.exports = router;

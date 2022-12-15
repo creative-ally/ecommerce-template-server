@@ -10,24 +10,23 @@ const {
   getProductsByCategory,
   getProductsByCode,
   getProductsBySearch,
-  // getOfficeProducts,
-  // getDoorProducts,
-  // getInteriorProducts,
-  // getDiningProducts,
-  // getBedroomProducts,
   getProduct,
   updateProduct,
   removeProduct,
 } = require('../controllers/productController');
+const { verifyToken, verifyAdmin } = require('../middlewares/auth/authHandler');
 
 // router setup
 const router = express.Router({
   caseSensitive: true,
 });
 
-router.route('/').post(addProduct).get(getAllProducts);
+router
+  .route('/')
+  .post(verifyToken, verifyAdmin, addProduct)
+  .get(getAllProducts);
 
-router.route('/all').post(addProducts);
+router.route('/all').post(verifyToken, verifyAdmin, addProducts);
 
 router.route('/category/:category').get(getProductsByCategory);
 
@@ -35,12 +34,11 @@ router.route('/category/:category/:code').get(getProductsByCode);
 
 router.route('/search/:search').get(getProductsBySearch);
 
-router.route('/:id').get(getProduct).put(updateProduct).delete(removeProduct);
+router
+  .route('/:id')
+  .get(getProduct)
+  .put(verifyToken, verifyAdmin, updateProduct)
+  .delete(verifyToken, verifyAdmin, removeProduct);
 
-// .get('/office', getOfficeProducts)
-// .get('/door', getDoorProducts)
-// .get('/interior', getInteriorProducts)
-// .get('/dining', getDiningProducts)
-// .get('/bedroom', getBedroomProducts)
-
+// exporting module
 module.exports = router;

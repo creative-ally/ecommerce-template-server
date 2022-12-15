@@ -1,4 +1,4 @@
-// dependencies
+// external imports
 const mongoose = require('mongoose');
 
 // creating schema for products
@@ -61,7 +61,7 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
       enum: {
-        values: ['in-stock', 'out-of-stock'],
+        values: ['In-stock', 'Out-of-stock'],
         message: 'Status can not be ignored',
       },
     },
@@ -83,23 +83,5 @@ const productSchema = mongoose.Schema(
   }
 );
 
-// querying data thorugh instance methods process
-// productSchema.methods = {
-//   findOfficeProduct: function () {
-//     return mongoose.model('Product').find({ category: 'Office' });
-//   },
-//   findDoorProduct: function () {
-//     return mongoose.model('Product').find({ category: 'Door' });
-//   },
-//   findInteriorProduct: function () {
-//     return mongoose.model('Product').find({ category: 'Interior' });
-//   },
-//   findDiningProduct: function () {
-//     return mongoose.model('Product').find({ category: 'Dining' });
-//   },
-//   findBedroomProduct: function () {
-//     return mongoose.model('Product').find({ category: 'Bedroom' });
-//   },
-// };
-
+// exporting module
 module.exports = productSchema;

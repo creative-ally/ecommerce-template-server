@@ -1,8 +1,8 @@
 // external imports
 const mongoose = require('mongoose');
 
-// creating schema for cart
-const cartSchema = mongoose.Schema(
+// creating schema for order
+const orderSchema = mongoose.Schema(
   {
     userId: { type: String, required: true },
     products: [
@@ -39,10 +39,27 @@ const cartSchema = mongoose.Schema(
     ],
     totalPrice: {
       type: Number,
+      required: true,
+    },
+    address: {
+      type: Object,
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: {
+        values: ['Shipped', 'Pending', 'Received'],
+        message: 'Status can not be ignored',
+      },
+      default: 'Pending',
+    },
+    transactionId: {
+      type: String,
+      required: true,
     },
   },
   { timestamps: true }
 );
 
 // exporting module
-module.exports = cartSchema;
+module.exports = orderSchema;
