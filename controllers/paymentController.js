@@ -30,7 +30,8 @@ const getAllTransactionDetails = async (req, res) => {
 const payBill = async (req, res) => {
   const order = req.body;
   const price = order.price;
-  const amount = price * 0.01;
+  const amount = price;
+  console.log(req.body);
   try {
     // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
@@ -38,12 +39,14 @@ const payBill = async (req, res) => {
       currency: 'usd',
       payment_method_types: ['card'],
     });
-    res
-      .status(200)
-      .json({
-        message: 'Payment successful!',
-        clientSecret: paymentIntent.client_secret,
-      });
+
+    // const newPayment = new Payment(order);
+    // const savedPayment = await newPayment.save();
+    res.status(200).json({
+      message: 'Payment successful!',
+      clientSecret: paymentIntent.client_secret,
+      // data: savedPayment,
+    });
   } catch (err) {
     // console.log(err);
     res.status(500).json({
