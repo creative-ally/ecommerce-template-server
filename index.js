@@ -1,15 +1,20 @@
-// dependencies
+// external imports
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
 
-// importing files
+// internal imports
 const productRouter = require('./routes/productRouter');
 const blogRouter = require('./routes/blogRouter');
+const authRouter = require('./routes/authRouter');
+const userRouter = require('./routes/userRouter');
+const cartRouter = require('./routes/cartRouter');
+const orderRouter = require('./routes/orderRouter');
+const paymentRouter = require('./routes/paymentRouter');
+const databaseConnect = require('./utilities/databaseConnect');
+const { notFoundHandler } = require('./middlewares/common/notFoundHandler');
 
-// important variables
+// app initialization
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -24,33 +29,39 @@ app.use(cors(corsConfig));
 app.options('*', cors(corsConfig));
 app.use(express.json());
 
-// database connection with mongoose
-const uri = `mongodb+srv://${process.env.DB_AUTHOR}:${process.env.DB_PASSWORD}@cluster0.qdkjipz.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+// database connect
+databaseConnect();
 
-mongoose
-  .connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log('DB connected!!');
-  })
-  .catch((err) => {
-    console.log(err);
+// displaying default response
+app.get('/', (req, res) => {
+  res.send({
+    message:
+      'Welcome to server of the ecommerce clone - developed by CreativeAlly',
   });
+});
 
 // setting-up application routes
 app.use('/api/product', productRouter);
 app.use('/api/blog', blogRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
+app.use('/api/cart', cartRouter);
+app.use('/api/order', orderRouter);
+app.use('/api/pay', paymentRouter);
 
-// displaying default response
-app.get('/', (req, res) => {
-  res.send(
-    'Welcome to server of the ecommerce clone - developed by CreativeAlly'
-  );
-});
+// 404 not found handler
+app.use('*', notFoundHandler);
 
 // listening to the port
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
+});
+
+// if express fail to handle any error for that there's global errorHandler
+process.on('unhandledRejection', (err) => {
+  console.log(err.name);
+  console.log(err.message);
+  app.close(() => {
+    process.exit(1);
+  });
 });
