@@ -1,9 +1,9 @@
 // external imports
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 // internal imports
-const User = require('../models/User');
+const User = require("../models/User");
 
 // sign-in with email
 const signIn = async (req, res) => {
@@ -13,7 +13,7 @@ const signIn = async (req, res) => {
     const oldUser = await User.findOne({ email: email });
 
     if (!oldUser) {
-      return res.status(404).json({ message: 'User does not exist' });
+      return res.status(404).json({ message: "User does not exist" });
     } else {
       const isPasswordCorrect = await bcrypt.compare(
         password,
@@ -21,27 +21,27 @@ const signIn = async (req, res) => {
       );
 
       if (!isPasswordCorrect)
-        return res.status(400).json({ message: 'Something went wrong' });
+        return res.status(400).json({ message: "Something went wrong" });
 
       const token = jwt.sign(
         { email: oldUser.email },
         process.env.ACCESS_TOKEN_SECRET,
         {
-          expiresIn: '86400s',
+          expiresIn: "86400s",
         }
       );
 
       res.status(200).json({
-        message: 'User existence test passed successfully!!',
+        message: "User existence test passed successfully!!",
         data: oldUser,
         accessToken: token,
       });
     }
   } catch (err) {
-    // console.log(err);
+    console.log(err);
     res.status(500).json({
-      message: 'There is a server side error',
-      // error: err
+      message: "There is a server side error",
+      error: err,
     });
   }
 };
@@ -68,21 +68,21 @@ const signUp = async (req, res) => {
       const token = jwt.sign(
         { email: savedUser.email },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '86400s' }
+        { expiresIn: "86400s" }
       );
 
       res.status(200).json({
-        message: 'User added successfully!!',
+        message: "User added successfully!!",
         data: savedUser,
         accessToken: token,
       });
     } else {
-      return res.status(400).json({ message: 'User already exists' });
+      return res.status(400).json({ message: "User already exists" });
     }
   } catch (err) {
     // console.log(err);
     res.status(500).json({
-      message: 'There is a server side error',
+      message: "There is a server side error",
       // error: err
     });
   }
@@ -96,7 +96,7 @@ const googleSignIn = async (req, res) => {
     const oldUser = await User.findOne({ email: email });
 
     const token = jwt.sign({ email: email }, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: '86400s',
+      expiresIn: "86400s",
     });
 
     if (!oldUser) {
@@ -110,13 +110,13 @@ const googleSignIn = async (req, res) => {
       const savedUser = await newUser.save();
 
       res.status(200).json({
-        message: 'Google user added successfully!!',
+        message: "Google user added successfully!!",
         data: savedUser,
         accessToken: token,
       });
     } else {
       return res.status(201).json({
-        message: 'Google Signing in successfull!',
+        message: "Google Signing in successfull!",
         data: oldUser,
         accessToken: token,
       });
@@ -124,7 +124,7 @@ const googleSignIn = async (req, res) => {
   } catch (err) {
     // console.log(err);
     res.status(500).json({
-      message: 'There is a server side error',
+      message: "There is a server side error",
       // error: err
     });
   }

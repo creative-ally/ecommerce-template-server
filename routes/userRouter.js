@@ -1,5 +1,5 @@
 // external imports
-const express = require('express');
+const express = require("express");
 
 // internal imports
 const {
@@ -9,22 +9,23 @@ const {
   getUser,
   updateUser,
   removeUser,
-} = require('../controllers/userController');
-const { verifyToken, verifyAdmin } = require('../middlewares/auth/authHandler');
+} = require("../controllers/userController");
+const { verifyToken, verifyAdmin } = require("../middlewares/auth/authHandler");
 
 // router setup
 const router = express.Router({
   caseSensitive: true,
 });
 
-router.route('/').get(verifyToken, verifyAdmin, getAllUsers);
+router.route("/").get(getAllUsers);
+// router.route('/').get(verifyToken, verifyAdmin, getAllUsers);
 
-router.route('/admins').get(verifyToken, verifyAdmin, getAllAdmins);
+router.route("/admins").get(verifyToken, verifyAdmin, getAllAdmins);
 
-router.route('/google').get(verifyToken, verifyAdmin, getAllGoogleUsers);
+router.route("/google").get(verifyToken, verifyAdmin, getAllGoogleUsers);
 
 router
-  .route('/information/:id')
+  .route("/information/:id")
   .get(verifyToken, getUser)
   .put(verifyToken, updateUser)
   .delete(verifyToken, verifyAdmin, removeUser);

@@ -1,8 +1,8 @@
 // external imports
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // internal imports
-const Order = require('../models/Order');
+const Order = require("../models/Order");
 
 // displayng all Orders
 const getAllOrders = async (req, res) => {
@@ -13,13 +13,13 @@ const getAllOrders = async (req, res) => {
       updatedAt: 0,
     });
     res.status(200).json({
-      message: 'All Orders showing!!',
+      message: "All Orders showing!!",
       data: orders,
     });
   } catch (err) {
-    // console.log(err)
+    console.log(err);
     res.status(500).json({
-      message: 'There is a server side error',
+      message: "There is a server side error",
       // error: err
     });
   }
@@ -35,13 +35,13 @@ const userOrder = async (req, res) => {
       updatedAt: 0,
     });
     res.status(200).json({
-      message: 'User Order showing!!',
+      message: "User Order showing!!",
       data: order,
     });
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: 'There is a server side error',
+      message: "There is a server side error",
       // error: err
     });
   }
@@ -54,13 +54,13 @@ const addToOrder = async (req, res) => {
   try {
     const savedOrder = await newOrder.save();
     res.status(200).json({
-      message: 'Item added to Order successfully!!',
+      message: "Item added to Order successfully!!",
       data: savedOrder,
     });
   } catch (err) {
     // console.log(err)
     res.status(500).json({
-      message: 'There is a server side error',
+      message: "There is a server side error",
       // error: err
     });
   }
@@ -85,18 +85,18 @@ const updateOrder = async (req, res) => {
         }
       );
       res.status(200).json({
-        message: 'Order item updated successfully',
+        message: "Order item updated successfully",
         data: updatedOrderItem,
       });
     } catch (err) {
       // console.log(err)
       res.status(500).json({
-        message: 'There is a server side error',
+        message: "There is a server side error",
         // error: err
       });
     }
   } else {
-    res.status(500).json({ message: 'There is a server side error!' });
+    res.status(500).json({ message: "There is a server side error!" });
   }
 };
 
@@ -106,16 +106,16 @@ const removeOrder = async (req, res) => {
   if (mongoose.Types.ObjectId.isValid(id)) {
     try {
       await Order.findByIdAndDelete({ _id: id });
-      res.status(200).json('Order has been deleted...');
+      res.status(200).json("Order has been deleted...");
     } catch (err) {
       //  console.log(err);
       res.status(500).json({
-        message: 'There is a server side error',
+        message: "There is a server side error",
         // error: err
       });
     }
   } else {
-    res.status(500).json({ message: 'There is a server side error!' });
+    res.status(500).json({ message: "There is a server side error!" });
   }
 };
 
